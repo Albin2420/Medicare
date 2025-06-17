@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:flutter/semantics.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:geocoding/geocoding.dart';
@@ -14,6 +15,7 @@ import 'package:medicare/src/data/repositories/location/locationrepoimpl.dart';
 import 'package:medicare/src/domain/repositories/location/locationrepo.dart';
 import 'package:medicare/src/presentation/controller/appstartupcontroller/appstartupcontroller.dart';
 import 'package:medicare/src/presentation/screens/Home/home.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart' as fs;
 
 class Homecontroller extends GetxController {
   RxBool hasShownSheet = RxBool(false);
@@ -44,7 +46,7 @@ class Homecontroller extends GetxController {
   final RxList<latlng.LatLng> routePoints = RxList<latlng.LatLng>();
 
   final openrouteservice = OpenRouteService(
-    apiKey: '5b3ce3597851110001cf6248ca9110fbaae4463ba3bea9e9262b1d66',
+    apiKey: fs.dotenv.env['ORS_API_KEY'] ?? 'defaultApi',
     defaultProfile: ORSProfile.drivingCar,
   );
 
