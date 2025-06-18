@@ -5,4 +5,5 @@ class Url {
   static String login = "auth/login";
   static String loc = "me/location";
   static String image = "me/upload/image";
+  static String audio = "me/upload/audio";
 }

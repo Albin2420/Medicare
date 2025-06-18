@@ -5,7 +5,8 @@ import 'package:medicare/src/core/network/failure.dart';
 
 abstract class Audiosrepo {
   Future<Either<Failure, Map<String, dynamic>>> saveAudio({
-    required List<File> audios,
+    required List<FileSystemEntity> audios,
     required String accessToken,
+    required String bookingId,
   });
 }

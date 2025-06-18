@@ -378,39 +378,44 @@ class PhotosController extends GetxController {
 
   /// Validate selected images
   Future<void> _validateImages() async {
-    for (final image in _selectedImages) {
-      try {
-        final stats = image.statSync();
-        final sizeInMB = stats.size / (1024 * 1024);
+    try {
+      for (final image in _selectedImages) {
+        try {
+          final stats = image.statSync();
+          final sizeInMB = stats.size / (1024 * 1024);
 
-        if (sizeInMB > 10) {
-          // Warn if image is larger than 10MB
-          log(
-            'Large image detected: ${image.path} (${sizeInMB.toStringAsFixed(1)}MB)',
-          );
+          if (sizeInMB > 10) {
+            // Warn if image is larger than 10MB
+            log(
+              'Large image detected: ${image.path} (${sizeInMB.toStringAsFixed(1)}MB)',
+            );
+          }
+        } catch (e) {
+          log('Error validating image ${image.path}: $e');
         }
-      } catch (e) {
-        log('Error validating image ${image.path}: $e');
       }
-    }
-    //try to upload
-    final repo = await imagesrepo.saveImage(
-      images: _selectedImages,
-      accessToken: ctrl.accessToken.value,
-    );
-    EasyLoading.show();
+      //try to upload
+      EasyLoading.show();
+      final repo = await imagesrepo.saveImage(
+        images: _selectedImages,
+        accessToken: ctrl.accessToken.value,
+      );
 
-    repo.fold(
-      (l) {
-        EasyLoading.dismiss();
-        Fluttertoast.showToast(msg: "something went wrong");
-      },  
-      (R) {
-        EasyLoading.dismiss();
-        Fluttertoast.showToast(msg: "Image uploaded successfully");
-        Get.back();
-      },
-    );
+      repo.fold(
+        (l) {
+          EasyLoading.dismiss();
+          Fluttertoast.showToast(msg: "something went wrong");
+        },
+        (R) {
+          EasyLoading.dismiss();
+          Fluttertoast.showToast(msg: "Image uploaded successfully");
+          Get.back();
+        },
+      );
+    } catch (e) {
+      EasyLoading.dismiss();
+      log("error in _validateImages():$e");
+    }
   }
 
   /// Enhanced camera availability check
