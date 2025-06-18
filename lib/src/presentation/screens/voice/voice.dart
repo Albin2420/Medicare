@@ -188,7 +188,12 @@ class Voice extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         elevation: 8,
-        child: GradientBorderContainer(name: 'Submit', onTap: () {}),
+        child: GradientBorderContainer(
+          name: 'Submit',
+          onTap: () {
+            controller.submitAudios();
+          },
+        ),
       ),
     );
   }

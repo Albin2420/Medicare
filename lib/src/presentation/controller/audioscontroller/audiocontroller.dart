@@ -1,14 +1,24 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:dartz/dartz.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:medicare/src/data/repositories/media/audiosrepo/audiorepoimpl.dart';
+import 'package:medicare/src/domain/repositories/media/audiosrepo/audiosrepo.dart';
+import 'package:medicare/src/presentation/controller/appstartupcontroller/appstartupcontroller.dart';
+import 'package:medicare/src/presentation/controller/homecontroller/Homecontroller.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class AudioController extends GetxController {
+  final ctrl = Get.find<Appstartupcontroller>();
+  final homectrl = Get.find<Homecontroller>();
+  Audiosrepo audiosrepo = Audiorepoimpl();
+
   late RecorderController recorderController;
   final Rx<Duration> recordingDuration = Duration.zero.obs;
   Timer? timer;
@@ -24,11 +34,19 @@ class AudioController extends GetxController {
   final Rx<Duration> currentPosition = Duration.zero.obs;
   final Rx<Duration> totalDuration = Duration.zero.obs;
 
+  RxString accesstoken = RxString("initialToken");
+  RxString bookingId = RxString("initialid");
+
   @override
   void onInit() {
     super.onInit();
+
+    fetchId();
+
     recorderController = RecorderController();
     _requestMicrophonePermission();
+
+    loadRecordings();
 
     audioPlayer.onPositionChanged.listen((pos) {
       currentPosition.value = pos;
@@ -42,6 +60,11 @@ class AudioController extends GetxController {
       isPlaying.value = false;
       currentPosition.value = Duration.zero;
     });
+  }
+
+  void fetchId() async {
+    accesstoken.value = (await ctrl.getAccessToken())!;
+    bookingId.value = homectrl.bookingId.value;
   }
 
   @override
@@ -149,6 +172,35 @@ class AudioController extends GetxController {
 
   Future<void> seekTo(double seconds) async {
     await audioPlayer.seek(Duration(seconds: seconds.toInt()));
+  }
+
+  Future<void> submitAudios() async {
+    try {
+      EasyLoading.show();
+      final fl = await audiosrepo.saveAudio(
+        audios: recordings,
+        accessToken: accesstoken.value,
+        bookingId: bookingId.value,
+      );
+
+      fl.fold(
+        (l) {
+          log("failed");
+          EasyLoading.dismiss();
+          Fluttertoast.showToast(msg: "failed to upload voice note");
+        },
+        (r) {
+          log("success");
+          EasyLoading.dismiss();
+          Get.back();
+          Fluttertoast.showToast(msg: "voice uploaded successfully");
+        },
+      );
+    } catch (e) {
+      log("Error in submitAudios():$e");
+      EasyLoading.dismiss();
+      Fluttertoast.showToast(msg: "Error in submitAudios()$e");
+    }
   }
 }
 
