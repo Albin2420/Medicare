@@ -6,4 +6,6 @@ class Url {
   static String loc = "me/location";
   static String image = "me/upload/image";
   static String audio = "me/upload/audio";
+
+  static var checkExpiry = "check-token-expiry";
 }
