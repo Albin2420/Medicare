@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
+import 'package:medicare/src/data/repositories/token/tokenRepoImpl.dart';
+import 'package:medicare/src/domain/repositories/token/tokenRepo.dart';
 import 'package:medicare/src/presentation/screens/Home/landing.dart';
 import 'package:medicare/src/presentation/screens/login/login.dart';
 
@@ -9,6 +11,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Appstartupcontroller extends GetxController {
   final _secureStorage = FlutterSecureStorage();
+  final Tokenrepo tokenrepo = Tokenrepoimpl();
 
   @override
   void onInit() {
@@ -18,13 +21,24 @@ class Appstartupcontroller extends GetxController {
   }
 
   Future<void> checktoken() async {
-    await Future.delayed(Duration(seconds: 1, microseconds: 500));
-    // Your task here
     var tk = await getAccessToken();
     if (tk == null) {
       Get.offAll(() => Login());
     } else {
-      Get.offAll(() => Landingscreen());
+      // Get.offAll(() => Landingscreen());
+      final res = await tokenrepo.checkToken(accesstoken: tk ?? '');
+      res.fold(
+        (l) {
+          Get.offAll(() => Login());
+        },
+        (r) {
+          if (r['expired'] == false) {
+            Get.offAll(() => Landingscreen());
+          } else {
+            Get.offAll(() => Login());
+          }
+        },
+      );
     }
   }
 
