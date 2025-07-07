@@ -71,17 +71,28 @@ class Registrationcontroller extends GetxController {
   }
 
   Future<void> login() async {
-    if (oTpcontrolller.text == "807456") {
-      final response = await loginrepo.login(phoneNumber: phncontrolller.text);
-      response.fold(
-        (l) {
-          log("failed");
-        },
-        (R) {
-          ctrl.saveAccessToken(R['access_token']);
-          Get.offAll(() => Landingscreen());
-        },
-      );
+    try {
+      if (oTpcontrolller.text == "807456") {
+        final response = await loginrepo.login(
+          phoneNumber: phncontrolller.text,
+        );
+        response.fold(
+          (l) {
+            Fluttertoast.showToast(
+              msg:
+                  "Looks like your account couldn’t be found. Try again or contact support.",
+            );
+            log("failed");
+          },
+          (R) {
+            ctrl.saveAccessToken(R['access_token']);
+            Get.offAll(() => Landingscreen());
+          },
+        );
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: "error in login():$e");
+      log("error in login():$e");
     }
   }
 }

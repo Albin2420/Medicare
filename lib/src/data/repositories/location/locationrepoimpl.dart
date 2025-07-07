@@ -46,6 +46,8 @@ class Locationrepoimpl extends Locationrepo {
           "ambulance_number": responseBody["ambulance_number"],
           "id": responseBody["media_id"],
           "eta_minutes": responseBody["eta_minutes"].toString(),
+          "latitude": responseBody["driver_latitude"],
+          "longitude": responseBody["driver_longitude"],
         });
       } else {
         return left(Failure(message: 'Server error: ${response.statusCode}'));
