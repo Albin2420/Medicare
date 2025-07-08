@@ -28,7 +28,10 @@ class Loginrepoimpl extends Loginrepo {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = response.data as Map<String, dynamic>;
-        return right({"access_token": responseBody["access_token"]});
+        return right({
+          "access_token": responseBody["access_token"],
+          "userId": responseBody['user_id'],
+        });
       } else {
         return left(Failure(message: 'Server error: ${response.statusCode}'));
       }

@@ -44,7 +44,7 @@ class Registrationcontroller extends GetxController {
 
   void submitRegistration() async {
     try {
-      if (otpcontroller.text == "807456") {
+      if (otpcontroller.text == "807456" && !EasyLoading.isShow) {
         EasyLoading.show();
         final resp = await userRepo.saveStudent(
           frstName: firstNamecontroller.text,
@@ -59,6 +59,7 @@ class Registrationcontroller extends GetxController {
           },
           (r) {
             ctrl.saveAccessToken(r['access_token']);
+            ctrl.saveId(id: r['userId'].toString());
             EasyLoading.dismiss();
             Get.offAll(() => Landingscreen());
           },
@@ -66,13 +67,14 @@ class Registrationcontroller extends GetxController {
       }
     } catch (e) {
       EasyLoading.dismiss();
-      log("error:$e");
+      log("error in submitRegistration():$e");
     }
   }
 
   Future<void> login() async {
     try {
-      if (oTpcontrolller.text == "807456") {
+      if (oTpcontrolller.text == "807456" && !EasyLoading.isShow) {
+        EasyLoading.show();
         final response = await loginrepo.login(
           phoneNumber: phncontrolller.text,
         );
@@ -82,16 +84,20 @@ class Registrationcontroller extends GetxController {
               msg:
                   "Looks like your account couldn’t be found. Try again or contact support.",
             );
+            EasyLoading.dismiss();
             log("failed");
           },
           (R) {
             ctrl.saveAccessToken(R['access_token']);
+            ctrl.saveId(id: R['userId'].toString());
+            EasyLoading.dismiss();
             Get.offAll(() => Landingscreen());
           },
         );
       }
     } catch (e) {
       Fluttertoast.showToast(msg: "error in login():$e");
+      EasyLoading.dismiss();
       log("error in login():$e");
     }
   }
