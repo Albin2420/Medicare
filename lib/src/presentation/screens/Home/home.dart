@@ -90,7 +90,7 @@ class Home extends StatelessWidget {
                   Polyline(
                     points: ctrl.routePoints.value,
                     strokeWidth: 4.0,
-                    color: Colors.blue,
+                    color: const Color.fromARGB(255, 0, 3, 6),
                   ),
                 ],
               ),

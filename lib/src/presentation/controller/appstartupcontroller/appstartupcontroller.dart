@@ -46,6 +46,16 @@ class Appstartupcontroller extends GetxController {
     await _secureStorage.write(key: 'access_token', value: token);
   }
 
+  Future<void> saveId({required String id}) async {
+    log("saveId() :$id");
+    await _secureStorage.write(key: 'userId', value: id);
+  }
+
+  Future<int> getId() async {
+    final userIdString = await _secureStorage.read(key: 'userId');
+    return int.parse(userIdString ?? '0');
+  }
+
   Future<String?> getAccessToken() async {
     return await _secureStorage.read(key: 'access_token');
   }

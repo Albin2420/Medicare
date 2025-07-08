@@ -60,6 +60,7 @@ class Homecontroller extends GetxController {
   RxBool isexpanded = RxBool(false);
   RxString distancetoLocation = RxString('');
   var dt = {}.obs;
+  RxInt id = RxInt(-1);
 
   @override
   void onInit() async {
@@ -67,7 +68,8 @@ class Homecontroller extends GetxController {
     log("Home controller initialized");
     startListeningToLocation();
     accessToken.value = (await ctrlr.getAccessToken())!;
-    connect(id: 2);
+    id.value = await ctrlr.getId();
+    connect(id: id.value);
   }
 
   void toggleExpanded() {
@@ -137,6 +139,7 @@ class Homecontroller extends GetxController {
       }
     } catch (e) {
       log('Error in reverse geocoding: $e');
+      getAddressFromLatLng(latitude: lat.value, longitude: long.value);
     }
   }
 
