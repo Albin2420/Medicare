@@ -121,7 +121,7 @@ class Landingscreen extends StatelessWidget {
                           SizedBox(
                             height: width * 0.06,
                             width: width * 0.06,
-                            child: Image.asset("assets/icons/Location.png"),
+                            child: Image.asset("assets/icons/location.png"),
                           ),
                           SizedBox(width: width * 0.01),
                           Text(

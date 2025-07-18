@@ -13,6 +13,8 @@ class Imagesrepoimpl extends Imagesrepo {
   Future<Either<Failure, Map<String, dynamic>>> saveImage({
     required List<File> images,
     required String accessToken,
+    required int rideId,
+    required String mediaId,
   }) async {
     try {
       final multipartImages = [];
@@ -26,10 +28,11 @@ class Imagesrepoimpl extends Imagesrepo {
 
       final formData = FormData.fromMap({
         'images': multipartImages,
-        'media_id': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        'media_id': mediaId,
+        'ride_id': rideId,
       });
 
-      log("img:${multipartImages[0].filename}");
+      log("img:${multipartImages[0].filename} rideId :$rideId");
 
       final response = await _dio.post(
         '${Url.baseUrl}/${Url.image}',

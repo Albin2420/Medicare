@@ -62,7 +62,8 @@ class Home extends StatelessWidget {
           children: [
             TileLayer(
               urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-              // no subdomains to avoid OSM warning
+              tileProvider: NetworkTileProvider(),
+              userAgentPackageName: 'com.yourcompany.yourapp', // required
             ),
             MarkerLayer(
               markers: [
@@ -70,7 +71,7 @@ class Home extends StatelessWidget {
                   point: lat.LatLng(ctrl.lat.value, ctrl.long.value),
                   width: 40,
                   height: 40,
-                  child: Image.asset("assets/icons/accident.png"),
+                  child: Image.asset("assets/icons/Iam.png"),
                 ),
                 if (ctrl.routePoints.isNotEmpty)
                   Marker(
@@ -80,7 +81,7 @@ class Home extends StatelessWidget {
                     ),
                     width: 40,
                     height: 40,
-                    child: Image.asset("assets/icons/loc.png"),
+                    child: Image.asset("assets/icons/destination.png"),
                   ),
               ],
             ),
@@ -285,7 +286,7 @@ class Home extends StatelessWidget {
                                   child: GestureDetector(
                                     onTap: () {
                                       log("upload photos");
-                                      if (ctrl.bookingId.value != "") {
+                                      if (ctrl.mediaId.value != "") {
                                         Get.to(() => Photos());
                                       }
                                     },
@@ -329,7 +330,7 @@ class Home extends StatelessWidget {
                                   child: GestureDetector(
                                     onTap: () {
                                       log("upload voice");
-                                      if (ctrl.bookingId.value != "") {
+                                      if (ctrl.mediaId.value != "") {
                                         Get.to(() => Voice());
                                       }
                                     },
@@ -616,7 +617,7 @@ class Home extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () {
                             log("upload photos");
-                            if (ctrl.bookingId.value != "") {
+                            if (ctrl.mediaId.value != "") {
                               Get.to(() => Photos());
                             }
                           },
@@ -658,7 +659,7 @@ class Home extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () {
                             log("upload voice");
-                            if (ctrl.bookingId.value != "") {
+                            if (ctrl.mediaId.value != "") {
                               Get.to(() => Voice());
                             }
                           },

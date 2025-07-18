@@ -40,12 +40,13 @@ class Homecontroller extends GetxController {
   //ambulance details
   RxString ambulancestatus = RxString("Ambulance requested...");
   RxString ambulanceRegNumber = RxString("");
-  RxString bookingId = RxString("");
+  RxString mediaId = RxString("");
   RxString mobNo = RxString("");
   RxString? eta = RxString("");
   RxString name = RxString("");
   RxDouble driverLat = RxDouble(0);
   RxDouble driverLong = RxDouble(0);
+  RxInt rideId = RxInt(-1);
 
   // final latlng.LatLng start = latlng.LatLng(10.1081324, 76.3585433);
   // final latlng.LatLng end = latlng.LatLng(10.120000, 76.360000);
@@ -225,14 +226,13 @@ class Homecontroller extends GetxController {
             log("failed");
           },
           (R) {
-            EasyLoading.dismiss();
             ambulanceRegNumber.value = R["ambulance_number"];
-            bookingId.value = R["id"];
+            mediaId.value = R["id"];
             mobNo.value = R["mobileNo"];
             eta?.value = R["eta_minutes"];
             driverLat.value = R['latitude'];
             driverLong.value = R['longitude'];
-
+            rideId.value = R['rideId'];
             ambulancestatus.value = "Ambulance is on the way!";
 
             getDistanceAndRouteFromOSRM(
@@ -241,6 +241,7 @@ class Homecontroller extends GetxController {
               endLat: R['latitude'],
               endLon: R['longitude'],
             );
+            EasyLoading.dismiss();
           },
         );
         Get.to(() => Home());

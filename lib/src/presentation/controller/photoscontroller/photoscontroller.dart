@@ -399,6 +399,8 @@ class PhotosController extends GetxController {
       final repo = await imagesrepo.saveImage(
         images: _selectedImages,
         accessToken: ctrl.accessToken.value,
+        mediaId: ctrl.mediaId.value,
+        rideId: ctrl.rideId.value,
       );
 
       repo.fold(

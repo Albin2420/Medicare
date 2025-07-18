@@ -12,7 +12,8 @@ class Audiorepoimpl extends Audiosrepo {
   Future<Either<Failure, Map<String, dynamic>>> saveAudio({
     required List<FileSystemEntity> audios,
     required String accessToken,
-    required String bookingId,
+    required String mediaId,
+    required int rideId,
   }) async {
     try {
       final dio = Dio();
@@ -32,8 +33,11 @@ class Audiorepoimpl extends Audiosrepo {
 
         final formData = FormData.fromMap({
           'audios': audioFiles,
-          'media_id': bookingId,
+          'media_id': mediaId,
+          'ride_id': rideId,
         });
+
+        log("rideId :$rideId");
 
         final response = await dio.post(
           "${Url.baseUrl}/${Url.audio}", // <-- Replace with your API endpoint

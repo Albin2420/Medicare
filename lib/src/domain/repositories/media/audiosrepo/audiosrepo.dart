@@ -7,6 +7,7 @@ abstract class Audiosrepo {
   Future<Either<Failure, Map<String, dynamic>>> saveAudio({
     required List<FileSystemEntity> audios,
     required String accessToken,
-    required String bookingId,
+    required String mediaId,
+    required int rideId,
   });
 }
