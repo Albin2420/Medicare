@@ -7,5 +7,7 @@ abstract class Imagesrepo {
   Future<Either<Failure, Map<String, dynamic>>> saveImage({
     required List<File> images,
     required String accessToken,
+    required int rideId,
+    required String mediaId,
   });
 }

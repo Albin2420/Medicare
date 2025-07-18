@@ -35,7 +35,8 @@ class AudioController extends GetxController {
   final Rx<Duration> totalDuration = Duration.zero.obs;
 
   RxString accesstoken = RxString("initialToken");
-  RxString bookingId = RxString("initialid");
+  RxString mediaId = RxString("initialid");
+  RxInt rideId = RxInt(-1);
 
   @override
   void onInit() {
@@ -64,7 +65,8 @@ class AudioController extends GetxController {
 
   void fetchId() async {
     accesstoken.value = (await ctrl.getAccessToken())!;
-    bookingId.value = homectrl.bookingId.value;
+    mediaId.value = homectrl.mediaId.value;
+    rideId.value = homectrl.rideId.value;
   }
 
   @override
@@ -180,7 +182,8 @@ class AudioController extends GetxController {
       final fl = await audiosrepo.saveAudio(
         audios: recordings,
         accessToken: accesstoken.value,
-        bookingId: bookingId.value,
+        mediaId: mediaId.value,
+        rideId: rideId.value,
       );
 
       fl.fold(
