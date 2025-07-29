@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
@@ -53,8 +51,18 @@ class Home extends StatelessWidget {
           ],
         ),
       ),
-      body: Obx(
-        () => FlutterMap(
+      body: Obx(() {
+        if (ctrl.lat.value == 0.0 || ctrl.long.value == 0.0) {
+          return Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Colors.grey.withValues(alpha: 0.7),
+            ),
+          );
+        }
+
+        return FlutterMap(
           options: MapOptions(
             initialCenter: lat.LatLng(ctrl.lat.value, ctrl.long.value),
             initialZoom: 17.5,
@@ -63,7 +71,7 @@ class Home extends StatelessWidget {
             TileLayer(
               urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
               tileProvider: NetworkTileProvider(),
-              userAgentPackageName: 'com.yourcompany.yourapp', // required
+              userAgentPackageName: 'com.yourcompany.yourapp',
             ),
             MarkerLayer(
               markers: [
@@ -96,9 +104,8 @@ class Home extends StatelessWidget {
                 ],
               ),
           ],
-        ),
-      ),
-
+        );
+      }),
       bottomNavigationBar: Obx(() {
         return GestureDetector(
           onTap: () {
@@ -107,20 +114,19 @@ class Home extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(32),
                 topRight: Radius.circular(32),
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2), // light shadow
-                  blurRadius: 20, // softness of the shadow
-                  spreadRadius: 5, // how wide the shadow spreads
-                  offset: Offset(0, -6), // x: 0, y: -5 (upward shadow)
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 20,
+                  spreadRadius: 5,
+                  offset: const Offset(0, -6),
                 ),
               ],
             ),
-
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -128,7 +134,7 @@ class Home extends StatelessWidget {
                     ? Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Obx(() {
                             return Text(
                               ctrl.ambulancestatus.value,
@@ -141,20 +147,19 @@ class Home extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             );
                           }),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Obx(() {
                             if (ctrl.eta?.value != '') {
                               return Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 32,
-                                  right: 32,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 32,
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "ETA: ${ctrl.eta} mins",
+                                      "ETA: ${ctrl.eta}",
                                       style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16,
@@ -166,22 +171,22 @@ class Home extends StatelessWidget {
                                       style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16,
-                                        color: Color(0xff353459),
+                                        color: const Color(0xff353459),
                                       ),
                                     ),
                                   ],
                                 ),
                               );
                             } else {
-                              return SizedBox();
+                              return const SizedBox();
                             }
                           }),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                         ],
                       )
                     : Column(
                         children: [
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Obx(() {
                             return Text(
                               ctrl.ambulancestatus.value,
@@ -194,9 +199,9 @@ class Home extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             );
                           }),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           Padding(
-                            padding: const EdgeInsets.only(left: 34, right: 34),
+                            padding: const EdgeInsets.symmetric(horizontal: 34),
                             child: Obx(() {
                               if (ctrl.eta?.value != '') {
                                 return Row(
@@ -204,7 +209,7 @@ class Home extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "ETA: ${ctrl.eta} mins",
+                                      "ETA: ${ctrl.eta}",
                                       style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16,
@@ -216,21 +221,19 @@ class Home extends StatelessWidget {
                                       style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16,
-                                        color: Color(0xff353459),
+                                        color: const Color(0xff353459),
                                       ),
                                     ),
                                   ],
                                 );
                               } else {
-                                return SizedBox();
+                                return const SizedBox();
                               }
                             }),
                           ),
-                          SizedBox(height: 20),
-
-                          Divider(),
-
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
+                          const Divider(),
+                          const SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -246,9 +249,9 @@ class Home extends StatelessWidget {
                               const Text("(optional)"),
                             ],
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Padding(
-                            padding: const EdgeInsets.only(left: 16, right: 16),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 20,
@@ -258,7 +261,9 @@ class Home extends StatelessWidget {
                                 color: const Color(0xffEBEBEF),
                                 borderRadius: BorderRadius.circular(50),
                                 border: Border.all(
-                                  color: Color(0xff27264D).withOpacity(0.3),
+                                  color: const Color(
+                                    0xff27264D,
+                                  ).withOpacity(0.3),
                                 ),
                               ),
                               child: Row(
@@ -277,176 +282,176 @@ class Home extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 24),
-
                           SizedBox(
                             height: 130,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      log("upload photos");
-                                      if (ctrl.mediaId.value != "") {
-                                        Get.to(() => Photos());
-                                      }
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Color(0xffEBEBEF),
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                color: Color(
-                                                  0xff27264D,
-                                                ).withOpacity(0.3),
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Transform.scale(
-                                                scale: 0.55,
-                                                child: Image.asset(
-                                                  "assets/icons/cam.png",
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        log("upload photos");
+                                        if (ctrl.mediaId.value != "") {
+                                          Get.to(() => Photos());
+                                        }
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xffEBEBEF),
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                  color: const Color(
+                                                    0xff27264D,
+                                                  ).withOpacity(0.3),
                                                 ),
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Text(
-                                          "Upload Photos",
-                                          style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      log("upload voice");
-                                      if (ctrl.mediaId.value != "") {
-                                        Get.to(() => Voice());
-                                      }
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Color(0xffEBEBEF),
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                color: Color(
-                                                  0xff27264D,
-                                                ).withOpacity(0.3),
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Transform.scale(
-                                                scale: 0.55,
-                                                child: Image.asset(
-                                                  "assets/icons/mic.png",
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Text(
-                                          "voicenote",
-                                          style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      log("first aid");
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                begin: Alignment.topLeft,
-                                                end: Alignment.bottomRight,
-                                                colors: [
-                                                  Color.fromARGB(
-                                                    150,
-                                                    239,
-                                                    29,
-                                                    29,
+                                              child: Center(
+                                                child: Transform.scale(
+                                                  scale: 0.55,
+                                                  child: Image.asset(
+                                                    "assets/icons/cam.png",
                                                   ),
-                                                  Color(0xff8D0808),
-                                                ],
-                                              ),
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                color: Color(
-                                                  0xff27264D,
-                                                ).withOpacity(0.3),
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Transform.scale(
-                                                scale: 0.55,
-                                                child: Image.asset(
-                                                  "assets/icons/bxs_first-aid.png",
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Text(
-                                          "First Aid Tips",
-                                          style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            "Upload Photos",
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        log("upload voice");
+                                        if (ctrl.mediaId.value != "") {
+                                          Get.to(() => Voice());
+                                        }
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xffEBEBEF),
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                  color: const Color(
+                                                    0xff27264D,
+                                                  ).withOpacity(0.3),
+                                                ),
+                                              ),
+                                              child: Center(
+                                                child: Transform.scale(
+                                                  scale: 0.55,
+                                                  child: Image.asset(
+                                                    "assets/icons/mic.png",
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            "voicenote",
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        log("first aid");
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                gradient: const LinearGradient(
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                  colors: [
+                                                    Color.fromARGB(
+                                                      150,
+                                                      239,
+                                                      29,
+                                                      29,
+                                                    ),
+                                                    Color(0xff8D0808),
+                                                  ],
+                                                ),
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                  color: const Color(
+                                                    0xff27264D,
+                                                  ).withOpacity(0.3),
+                                                ),
+                                              ),
+                                              child: Center(
+                                                child: Transform.scale(
+                                                  scale: 0.55,
+                                                  child: Image.asset(
+                                                    "assets/icons/bxs_first-aid.png",
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            "First Aid Tips",
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-
                           const SizedBox(height: 24),
                           Padding(
-                            padding: const EdgeInsets.only(left: 16, right: 16),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Obx(() {
                               if (ctrl.mobNo.value != '') {
                                 return GestureDetector(
                                   onTap: () {
-                                    final ctrl = Get.find<Homecontroller>();
                                     ctrl.makePhoneCall(ctrl.mobNo.value);
                                   },
                                   child: Container(
-                                    padding: EdgeInsets.only(
-                                      top: 14,
-                                      bottom: 14,
-                                      left: 20,
-                                      right: 20,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                      vertical: 14,
                                     ),
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
-                                      gradient: LinearGradient(
+                                      gradient: const LinearGradient(
                                         colors: [
                                           Color(0xffE75757),
                                           Color(0xff8C0707),
@@ -455,7 +460,7 @@ class Home extends StatelessWidget {
                                     ),
                                     child: Row(
                                       children: [
-                                        SizedBox(width: 10),
+                                        const SizedBox(width: 10),
                                         SizedBox(
                                           height: 24,
                                           width: 24,
@@ -477,11 +482,10 @@ class Home extends StatelessWidget {
                                   ),
                                 );
                               } else {
-                                return SizedBox();
+                                return const SizedBox();
                               }
                             }),
                           ),
-
                           const SizedBox(height: 24),
                         ],
                       ),
@@ -490,313 +494,6 @@ class Home extends StatelessWidget {
           ),
         );
       }),
-    );
-  }
-
-  // Extract the bottom sheet logic into a separate method
-  void _showEmergencySheet(BuildContext context) {
-    final ctrl = Get.find<Homecontroller>();
-
-    showModalBottomSheet(
-      backgroundColor: Colors.white,
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(32),
-          topRight: Radius.circular(32),
-        ),
-      ),
-      builder: (BuildContext context) {
-        return SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(top: 20, bottom: 32, left: 16, right: 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Obx(() {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: Text(
-                      ctrl.ambulancestatus.value,
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                        color: const Color(0xff353459),
-                      ),
-                    ),
-                  );
-                }),
-                const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.only(left: 32, right: 32),
-                  child: Obx(() {
-                    if (ctrl.eta?.value != '') {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "ETA: ${ctrl.eta} mins",
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Text(
-                            ctrl.ambulanceRegNumber.value,
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: Color(0xff353459),
-                            ),
-                          ),
-                        ],
-                      );
-                    } else {
-                      return SizedBox();
-                    }
-                  }),
-                ),
-                Obx(() {
-                  if (ctrl.eta?.value != '') {
-                    return SizedBox(height: 16);
-                  } else {
-                    return SizedBox();
-                  }
-                }),
-                const Divider(),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Add more details",
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20,
-                        color: const Color(0xff353459),
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                    const Text("(optional)"),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 14,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xffEBEBEF),
-                    borderRadius: BorderRadius.circular(50),
-                    border: Border.all(
-                      color: Color(0xff27264D).withOpacity(0.3),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        height: 24,
-                        width: 24,
-                        child: Image.asset("assets/icons/phone.png"),
-                      ),
-                      const SizedBox(width: 10),
-                      const Text("Alternate Phone Number"),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-                SizedBox(
-                  height: 130,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            log("upload photos");
-                            if (ctrl.mediaId.value != "") {
-                              Get.to(() => Photos());
-                            }
-                          },
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Color(0xffEBEBEF),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Color(0xff27264D).withOpacity(0.3),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Transform.scale(
-                                      scale: 0.55,
-                                      child: Image.asset(
-                                        "assets/icons/cam.png",
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Upload Photos",
-                                style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            log("upload voice");
-                            if (ctrl.mediaId.value != "") {
-                              Get.to(() => Voice());
-                            }
-                          },
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Color(0xffEBEBEF),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Color(0xff27264D).withOpacity(0.3),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Transform.scale(
-                                      scale: 0.55,
-                                      child: Image.asset(
-                                        "assets/icons/mic.png",
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "voicenote",
-                                style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            log("first aid");
-                          },
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        Color.fromARGB(150, 239, 29, 29),
-                                        Color(0xff8D0808),
-                                      ],
-                                    ),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Color(0xff27264D).withOpacity(0.3),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Transform.scale(
-                                      scale: 0.55,
-                                      child: Image.asset(
-                                        "assets/icons/bxs_first-aid.png",
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "First Aid Tips",
-                                style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Obx(() {
-                  if (ctrl.mobNo.value != '') {
-                    return GestureDetector(
-                      onTap: () {
-                        final ctrl = Get.find<Homecontroller>();
-                        ctrl.makePhoneCall(ctrl.mobNo.value);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(
-                          top: 14,
-                          bottom: 14,
-                          left: 20,
-                          right: 20,
-                        ),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          gradient: LinearGradient(
-                            colors: [Color(0xffE75757), Color(0xff8C0707)],
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 10),
-                            SizedBox(
-                              height: 24,
-                              width: 24,
-                              child: Image.asset("assets/icons/phonewhite.png"),
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              "call Ambulance",
-                              style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  } else {
-                    return SizedBox();
-                  }
-                }),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }
