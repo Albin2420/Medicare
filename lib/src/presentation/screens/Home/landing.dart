@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -80,7 +82,6 @@ class Landingscreen extends StatelessWidget {
           SizedBox(height: height * 0.05),
           GestureDetector(
             onTap: () {
-              // Get.to(() => Home());
               if (controller.lat.value != 0.0 && controller.long.value != 0.0) {
                 if (!EasyLoading.isShow) {
                   controller.registerEmergency();

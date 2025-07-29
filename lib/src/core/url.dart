@@ -7,5 +7,6 @@ class Url {
   static String image = "me/upload/image";
   static String audio = "me/upload/audio";
 
-  static var checkExpiry = "check-token-expiry";
+  static String checkExpiry = "check-token-expiry";
+  static String userCheckonGoingRide = "user/check-ongoing-ride";
 }

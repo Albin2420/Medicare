@@ -63,4 +63,17 @@ class Appstartupcontroller extends GetxController {
   Future<void> deleteAccessToken() async {
     await _secureStorage.delete(key: 'access_token');
   }
+
+  Future<void> saveRideId({required String rideId}) async {
+    await _secureStorage.write(key: 'rideId', value: rideId);
+  }
+
+  Future<int> getRideId() async {
+    final rideId = await _secureStorage.read(key: 'rideId');
+    return int.parse(rideId ?? '-1');
+  }
+
+  Future<void> clearRideId() async {
+    await _secureStorage.delete(key: 'rideId');
+  }
 }
