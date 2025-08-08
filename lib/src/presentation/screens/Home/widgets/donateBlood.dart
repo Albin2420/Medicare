@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:medicare/src/presentation/screens/Home/widgets/donarCard.dart';
+import 'package:medicare/src/presentation/widgets/donarCard.dart';
 
 class Donateblood extends StatelessWidget {
   const Donateblood({super.key});
