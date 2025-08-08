@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
@@ -17,6 +18,9 @@ import 'package:medicare/src/data/repositories/check-ride/check_rideRepoImpl.dar
 import 'package:medicare/src/data/services/hive_services/rideDetails/ambulance_data.dart';
 import 'package:medicare/src/domain/repositories/check-ride/check_rideRepo.dart';
 import 'package:medicare/src/presentation/screens/Home/landing.dart';
+import 'package:medicare/src/presentation/screens/Home/widgets/Homescreen.dart';
+import 'package:medicare/src/presentation/screens/Home/widgets/donateBlood.dart';
+import 'package:medicare/src/presentation/screens/Home/widgets/requestBlood.dart';
 import 'package:open_route_service/open_route_service.dart';
 
 import 'package:medicare/src/data/repositories/location/locationrepoimpl.dart';
@@ -76,13 +80,35 @@ class Homecontroller extends GetxController {
 
   RxBool isInrIDE = RxBool(false);
 
+  final PageController pageController = PageController();
+  var currentpageIndex = 0.obs;
+  var isUiReady = false.obs;
+
   @override
   void onInit() async {
     super.onInit();
+
     id.value = await ctrlr.getId();
     previousRideId.value = await ctrlr.getRideId();
     connect(usId: id.value);
     _initializeController();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      isUiReady.value = true;
+    });
+  }
+
+  void onPageChange({required int index}) {
+    try {
+      pageController.jumpToPage(index);
+      currentpageIndex.value = index;
+    } catch (e) {
+      log("Error changing page: $e");
+      Fluttertoast.showToast(
+        msg: "Error changing page",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
+    }
   }
 
   Future<void> _initializeController() async {
@@ -167,20 +193,20 @@ class Homecontroller extends GetxController {
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied ||
           permission == LocationPermission.deniedForever) {
+        log("requesting permission");
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied ||
             permission == LocationPermission.deniedForever) {
-          log("denied forever");
+          log("Location permission denied");
           deniedforver.value = true;
           return;
         }
       }
 
-      // Start listening to the position stream
       _positionStream = Geolocator.getPositionStream(
         locationSettings: const LocationSettings(
           accuracy: LocationAccuracy.high,
-          distanceFilter: 20, // meters (minimum distance before update)
+          distanceFilter: 20,
         ),
       );
 
