@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medicare/src/presentation/controller/homecontroller/Homecontroller.dart';
 
-class Homescreen extends StatelessWidget {
-  const Homescreen({super.key});
+class LandingHome extends StatelessWidget {
+  const LandingHome({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class Homescreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: height * 0.1 - 20),
+          SizedBox(height: height * 0.1 - 40),
           Center(
             child: Text(
               "Do you require\nMedical assistance?",
@@ -108,6 +108,7 @@ class Homescreen extends StatelessWidget {
               }),
             ],
           ),
+          SizedBox(height: 14),
         ],
       ),
     );

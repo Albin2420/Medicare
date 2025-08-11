@@ -18,9 +18,7 @@ import 'package:medicare/src/data/repositories/check-ride/check_rideRepoImpl.dar
 import 'package:medicare/src/data/services/hive_services/rideDetails/ambulance_data.dart';
 import 'package:medicare/src/domain/repositories/check-ride/check_rideRepo.dart';
 import 'package:medicare/src/presentation/screens/Home/landing.dart';
-import 'package:medicare/src/presentation/screens/Home/widgets/Homescreen.dart';
-import 'package:medicare/src/presentation/screens/Home/widgets/donateBlood.dart';
-import 'package:medicare/src/presentation/screens/Home/widgets/requestBlood.dart';
+
 import 'package:open_route_service/open_route_service.dart';
 
 import 'package:medicare/src/data/repositories/location/locationrepoimpl.dart';

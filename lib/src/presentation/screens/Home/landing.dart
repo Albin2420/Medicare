@@ -3,10 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:medicare/src/presentation/controller/bloodrequestcontroller/bloodrequestcontroller.dart';
 import 'package:medicare/src/presentation/controller/homecontroller/Homecontroller.dart';
-import 'package:medicare/src/presentation/screens/Home/widgets/Homescreen.dart';
-import 'package:medicare/src/presentation/screens/Home/widgets/donateBlood.dart';
-import 'package:medicare/src/presentation/screens/Home/widgets/requestBlood.dart';
+import 'package:medicare/src/presentation/screens/Home/widgets/index/LandingHome.dart';
+import 'package:medicare/src/presentation/screens/Home/widgets/index/donateBlood.dart';
+import 'package:medicare/src/presentation/screens/Home/widgets/index/requestBlood.dart';
 
 class Landingscreen extends StatelessWidget {
   const Landingscreen({super.key});
@@ -14,6 +15,7 @@ class Landingscreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(Homecontroller());
+    Get.put(Bloodrequestcontroller());
     final Size screenSize = MediaQuery.of(context).size;
     final double height = screenSize.height;
     final double width = screenSize.width;
@@ -64,7 +66,7 @@ class Landingscreen extends StatelessWidget {
         body: PageView(
           controller: controller.pageController,
           physics: const NeverScrollableScrollPhysics(),
-          children: const [Homescreen(), Requestblood(), Donateblood()],
+          children: const [LandingHome(), Requestblood(), Donateblood()],
         ),
         bottomNavigationBar: Container(
           decoration: const BoxDecoration(

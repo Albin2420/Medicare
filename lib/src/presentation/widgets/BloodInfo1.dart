@@ -21,7 +21,7 @@ class BloodInfo1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -47,7 +47,7 @@ class BloodInfo1 extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 4),
                     Text(
                       "Can provide: $bloodUnit unit",
                       style: GoogleFonts.poppins(
@@ -80,8 +80,7 @@ class BloodInfo1 extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: 20),
-
+          SizedBox(height: 12),
           Row(
             children: [
               GestureDetector(
