@@ -42,8 +42,10 @@ class BloodInfo1 extends StatelessWidget {
                     Text(
                       infonName,
                       style: GoogleFonts.poppins(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20,
+                        height: 1.3,
+                        letterSpacing: 0,
                         color: Colors.black,
                       ),
                     ),
@@ -51,7 +53,10 @@ class BloodInfo1 extends StatelessWidget {
                     Text(
                       "Can provide: $bloodUnit unit",
                       style: GoogleFonts.poppins(
-                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14.4,
+                        height: 1.3,
+                        letterSpacing: 0,
                         color: Colors.grey[600],
                       ),
                     ),
@@ -59,7 +64,10 @@ class BloodInfo1 extends StatelessWidget {
                     Text(
                       infoLocation,
                       style: GoogleFonts.poppins(
-                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14.4,
+                        height: 1.3,
+                        letterSpacing: 0,
                         color: Colors.grey[600],
                       ),
                     ),
@@ -73,6 +81,8 @@ class BloodInfo1 extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 48,
                     fontWeight: FontWeight.w700,
+                    height: 1.3,
+                    letterSpacing: 0,
                     color: Color(0xFFD32F2F),
                   ),
                 ),
@@ -109,8 +119,10 @@ class BloodInfo1 extends StatelessWidget {
                       Text(
                         "Share",
                         style: GoogleFonts.poppins(
-                          fontSize: 14,
                           fontWeight: FontWeight.w500,
+                          fontSize: 14.4,
+                          height: 1.3,
+                          letterSpacing: 0,
                           color: Colors.white,
                         ),
                       ),
@@ -147,8 +159,10 @@ class BloodInfo1 extends StatelessWidget {
                       Text(
                         "Contact",
                         style: GoogleFonts.poppins(
-                          fontSize: 14,
                           fontWeight: FontWeight.w500,
+                          fontSize: 14.4,
+                          height: 1.3,
+                          letterSpacing: 0,
                           color: Colors.white,
                         ),
                       ),

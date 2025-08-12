@@ -26,7 +26,7 @@ class BloodInfo2 extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          padding: EdgeInsets.only(left: 14, top: 16, bottom: 4),
+          padding: EdgeInsets.only(left: 13, top: 16),
           child: Container(
             padding: EdgeInsets.only(left: 64, top: 10, bottom: 10, right: 14),
             height: 120,
@@ -46,19 +46,42 @@ class BloodInfo2 extends StatelessWidget {
                         Text(
                           infonName,
                           style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w500, // Medium
                             fontSize: 16,
+                            height: 1.3, // 130% line height
+                            letterSpacing: 0,
                           ),
                         ),
                         SizedBox(height: 4),
-                        Text("$infobloodUnit units"),
-                        Text(infoLocation),
+                        Text(
+                          "$infobloodUnit units",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w400, // Regular (400)
+                            fontSize: 14.4,
+                            height: 1.3, // 130% line height
+                            letterSpacing: 0,
+                            color: Color(0xBF28274F),
+                          ),
+                        ),
+                        Text(
+                          infoLocation,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w400, // Regular (400)
+                            fontSize: 14.4,
+                            height: 1.3, // 130% line height
+                            letterSpacing: 0,
+                            color: Color(0xBF28274F),
+                          ),
+                        ),
                         SizedBox(height: 4),
                         Text(
                           infoRequiredDate,
                           style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
+                            fontWeight: FontWeight.w500, // Medium
+                            fontSize: 15,
+                            height: 1.3, // 130% line height
+                            letterSpacing: 0,
+                            color: Color(0xFF28274F), // Hex color #28274F
                           ),
                         ),
                       ],
@@ -91,14 +114,16 @@ class BloodInfo2 extends StatelessWidget {
                             padding: EdgeInsets.only(
                               left: 9,
                               right: 8,
-                              top: 4,
+                              top: 5,
                               bottom: 4,
                             ),
                             child: Text(
                               "Contact",
                               style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w500,
-                                fontSize: 14,
+                                fontSize: 14.4,
+                                height: 1.3,
+                                letterSpacing: 0,
                                 color: Colors.white,
                               ),
                             ),
@@ -117,12 +142,9 @@ class BloodInfo2 extends StatelessWidget {
           width: 72,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment(-0.66, -1.0), // approximate for 147.96deg
+              begin: Alignment(-0.66, -1.0),
               end: Alignment(1.0, 1.0),
-              colors: [
-                Color(0xFFE55555), // #E55555 at 16.64%
-                Color(0xFF8D0808), // #8D0808 at 92.32%
-              ],
+              colors: [Color(0xFFE55555), Color(0xFF8D0808)],
               stops: [0.1664, 0.9232],
             ),
             borderRadius: BorderRadius.circular(14),
@@ -132,7 +154,9 @@ class BloodInfo2 extends StatelessWidget {
               infobloodGroup,
               style: GoogleFonts.poppins(
                 fontWeight: FontWeight.w700,
-                fontSize: 21,
+                fontSize: 21.6,
+                height: 1.3,
+                letterSpacing: 0,
                 color: Colors.white,
               ),
             ),
