@@ -21,7 +21,7 @@ class BloodInfo1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -47,7 +47,7 @@ class BloodInfo1 extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 4),
                     Text(
                       "Can provide: $bloodUnit unit",
                       style: GoogleFonts.poppins(
@@ -80,14 +80,18 @@ class BloodInfo1 extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: 20),
-
+          SizedBox(height: 8),
           Row(
             children: [
               GestureDetector(
                 onTap: share,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  padding: EdgeInsets.only(
+                    left: 9,
+                    right: 9,
+                    top: 6,
+                    bottom: 6,
+                  ),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.centerLeft,
@@ -120,7 +124,12 @@ class BloodInfo1 extends StatelessWidget {
               GestureDetector(
                 onTap: contact,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  padding: EdgeInsets.only(
+                    left: 9,
+                    right: 9,
+                    top: 6,
+                    bottom: 6,
+                  ),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment(-1.0, -0.15),
