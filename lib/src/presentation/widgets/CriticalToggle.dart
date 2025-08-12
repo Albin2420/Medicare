@@ -18,7 +18,7 @@ class _CriticalToggleState extends State<CriticalToggle> {
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
-        border: Border.all(width: 2, color: Colors.red),
+        border: Border.all(width: 1, color: Colors.red),
       ),
       padding: const EdgeInsets.only(left: 20, right: 10, top: 4, bottom: 4),
       child: Row(
@@ -28,7 +28,7 @@ class _CriticalToggleState extends State<CriticalToggle> {
             "Critical", // corrected typo
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.w700,
-              fontSize: 20,
+              fontSize: 18,
               color: Colors.red,
             ),
           ),

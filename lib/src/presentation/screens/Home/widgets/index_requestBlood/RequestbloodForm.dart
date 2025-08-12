@@ -37,7 +37,7 @@ class BloodForm extends StatelessWidget {
                   "Required Date",
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.w700,
-                    fontSize: 17,
+                    fontSize: 16,
                     color: const Color(0xff353459),
                   ),
                 ),
@@ -74,7 +74,7 @@ class BloodForm extends StatelessWidget {
                   "Blood Type",
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.w700,
-                    fontSize: 17,
+                    fontSize: 16,
                     color: const Color(0xff353459),
                   ),
                 ),
@@ -100,7 +100,7 @@ class BloodForm extends StatelessWidget {
                   "No. of Units",
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.w700,
-                    fontSize: 17,
+                    fontSize: 16,
                     color: const Color(0xff353459),
                   ),
                 ),
@@ -137,7 +137,7 @@ class BloodForm extends StatelessWidget {
                   "Your Contact",
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.w700,
-                    fontSize: 17,
+                    fontSize: 16,
                     color: const Color(0xff353459),
                   ),
                 ),
@@ -174,7 +174,7 @@ class BloodForm extends StatelessWidget {
                   "Patient Name",
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.w700,
-                    fontSize: 17,
+                    fontSize: 16,
                     color: const Color(0xff353459),
                   ),
                 ),
@@ -211,7 +211,7 @@ class BloodForm extends StatelessWidget {
                   "Hospital",
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.w700,
-                    fontSize: 17,
+                    fontSize: 16,
                     color: const Color(0xff353459),
                   ),
                 ),

@@ -80,13 +80,18 @@ class BloodInfo1 extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: 12),
+          SizedBox(height: 8),
           Row(
             children: [
               GestureDetector(
                 onTap: share,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  padding: EdgeInsets.only(
+                    left: 9,
+                    right: 9,
+                    top: 6,
+                    bottom: 6,
+                  ),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.centerLeft,
@@ -119,7 +124,12 @@ class BloodInfo1 extends StatelessWidget {
               GestureDetector(
                 onTap: contact,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  padding: EdgeInsets.only(
+                    left: 9,
+                    right: 9,
+                    top: 6,
+                    bottom: 6,
+                  ),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment(-1.0, -0.15),
