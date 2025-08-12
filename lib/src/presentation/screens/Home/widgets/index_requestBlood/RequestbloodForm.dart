@@ -36,9 +36,12 @@ class BloodForm extends StatelessWidget {
                 child: Text(
                   "Required Date",
                   style: GoogleFonts.poppins(
+                    fontSize: 14.4,
                     fontWeight: FontWeight.w700,
-                    fontSize: 16,
-                    color: const Color(0xff353459),
+                    fontStyle: FontStyle.normal,
+                    height: 1.3,
+                    letterSpacing: 0.0,
+                    color: Color(0xFF353459),
                   ),
                 ),
               ),
@@ -73,9 +76,12 @@ class BloodForm extends StatelessWidget {
                 child: Text(
                   "Blood Type",
                   style: GoogleFonts.poppins(
+                    fontSize: 14.4,
                     fontWeight: FontWeight.w700,
-                    fontSize: 16,
-                    color: const Color(0xff353459),
+                    fontStyle: FontStyle.normal,
+                    height: 1.3,
+                    letterSpacing: 0.0,
+                    color: Color(0xFF353459),
                   ),
                 ),
               ),
@@ -99,9 +105,12 @@ class BloodForm extends StatelessWidget {
                 child: Text(
                   "No. of Units",
                   style: GoogleFonts.poppins(
+                    fontSize: 14.4,
                     fontWeight: FontWeight.w700,
-                    fontSize: 16,
-                    color: const Color(0xff353459),
+                    fontStyle: FontStyle.normal,
+                    height: 1.3,
+                    letterSpacing: 0.0,
+                    color: Color(0xFF353459),
                   ),
                 ),
               ),
@@ -137,7 +146,9 @@ class BloodForm extends StatelessWidget {
                   "Your Contact",
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.w700,
-                    fontSize: 16,
+                    fontStyle: FontStyle.normal,
+                    height: 1.3,
+                    letterSpacing: 0.0,
                     color: const Color(0xff353459),
                   ),
                 ),
@@ -173,8 +184,11 @@ class BloodForm extends StatelessWidget {
                 child: Text(
                   "Patient Name",
                   style: GoogleFonts.poppins(
+                    fontSize: 14.4,
                     fontWeight: FontWeight.w700,
-                    fontSize: 16,
+                    fontStyle: FontStyle.normal,
+                    height: 1.3,
+                    letterSpacing: 0.0,
                     color: const Color(0xff353459),
                   ),
                 ),
@@ -210,9 +224,13 @@ class BloodForm extends StatelessWidget {
                 child: Text(
                   "Hospital",
                   style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16,
-                    color: const Color(0xff353459),
+                    fontSize: 14.4, // font-size: 14.4px
+                    fontWeight: FontWeight.w700, // font-weight: 700 (Bold)
+                    fontStyle: FontStyle
+                        .normal, // font-style: Bold handled by fontWeight
+                    height: 1.3, // line-height: 130% (130 / 100 = 1.3)
+                    letterSpacing: 0.0, // letter-spacing: 0%
+                    color: Color(0xFF353459), // color: #353459
                   ),
                 ),
               ),

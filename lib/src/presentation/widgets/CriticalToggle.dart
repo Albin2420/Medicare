@@ -25,10 +25,13 @@ class _CriticalToggleState extends State<CriticalToggle> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Critical", // corrected typo
+            "Critical",
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.w700,
-              fontSize: 18,
+              fontStyle: FontStyle.normal,
+              fontSize: 20,
+              height: 1.3,
+              letterSpacing: 0.0,
               color: Colors.red,
             ),
           ),
