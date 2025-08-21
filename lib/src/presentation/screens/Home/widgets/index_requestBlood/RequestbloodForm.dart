@@ -1,11 +1,13 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medicare/src/presentation/controller/bloodrequestcontroller/bloodrequestcontroller.dart';
 import 'package:medicare/src/presentation/widgets/CriticalToggle.dart';
-import 'package:medicare/src/presentation/widgets/gradientDropdownBox.dart';
+import 'package:medicare/src/presentation/widgets/Datepicker.dart';
+import 'package:medicare/src/presentation/widgets/Bloodgroupwidget.dart';
 import 'package:medicare/src/presentation/widgets/gradientbutton.dart';
 
 class BloodForm extends StatelessWidget {
@@ -14,250 +16,166 @@ class BloodForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ctrl = Get.find<Bloodrequestcontroller>();
-    return ListView(
-      children: [
-        CriticalToggle(
-          oncontact: ({required bool value}) {
-            if (value) {
-              log("critical");
-            } else {
-              log("not yet ");
-            }
-          },
+    final formKey = GlobalKey<FormState>();
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Form(
+        key: formKey,
+        child: ListView(
+          children: [
+            CriticalToggle(
+              oncontact: ({required bool value}) {
+                ctrl.critical.value = value;
+              },
+            ),
+            const SizedBox(height: 14),
+
+            // Required Date
+            _buildLabel("Required Date"),
+            DatePicker(
+              onDateSelected: (String value) {
+                ctrl.requestDate.value = value;
+              },
+            ),
+            const SizedBox(height: 14),
+
+            // Blood Type
+            _buildLabel("Blood Type"),
+            BloodGroupPicker(
+              onChanged: (String? value) {
+                ctrl.bloodGroup.value = value ?? "";
+              },
+            ),
+            const SizedBox(height: 14),
+
+            // No. of Units
+            _buildLabel("No. of Units"),
+            TextFormField(
+              controller: ctrl.noofUnits,
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter number of units";
+                }
+                if (int.tryParse(value) == null || int.parse(value) <= 0) {
+                  return "Enter a valid number";
+                }
+                return null;
+              },
+              decoration: _inputDecoration("No. of Units needed"),
+            ),
+            const SizedBox(height: 12),
+
+            // Contact
+            _buildLabel("Your Contact"),
+            TextFormField(
+              maxLength: 10,
+              controller: ctrl.contactNumber,
+              keyboardType: TextInputType.phone,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter your contact number";
+                }
+                if (value.length < 10) {
+                  return "Enter a valid phone number";
+                }
+                return null;
+              },
+              decoration: _inputDecoration("Enter Your Contact Number"),
+            ),
+            const SizedBox(height: 12),
+
+            // Patient Name
+            _buildLabel("Patient Name"),
+            TextFormField(
+              controller: ctrl.patienTName,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter patient name";
+                }
+                return null;
+              },
+              decoration: _inputDecoration("Enter Patient Name"),
+            ),
+            const SizedBox(height: 12),
+
+            // Hospital
+            _buildLabel("Hospital"),
+            TextFormField(
+              controller: ctrl.hospitalName,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter hospital name";
+                }
+                return null;
+              },
+              decoration: _inputDecoration("Hospital Name"),
+            ),
+            const SizedBox(height: 24),
+
+            // Submit Button
+            GradientBorderContainer(
+              name: 'Request',
+              onTap: () {
+                if (formKey.currentState!.validate()) {
+                  if (ctrl.requestDate.value.isEmpty) {
+                    Fluttertoast.showToast(
+                      msg: "Please select a required date",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      fontSize: 16.0, // slightly larger to simulate bold
+                    );
+
+                    return;
+                  }
+                  if (ctrl.bloodGroup.value.isEmpty) {
+                    Fluttertoast.showToast(
+                      msg: "Please select a required BloodGroup",
+                    );
+                    return;
+                  }
+
+                  ctrl.requestBlood();
+                }
+              },
+            ),
+            const SizedBox(height: 24),
+          ],
         ),
-        SizedBox(height: 14),
-        Container(
-          padding: EdgeInsets.only(left: 16, right: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Text(
-                  "Required Date",
-                  style: GoogleFonts.poppins(
-                    fontSize: 14.4,
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.normal,
-                    height: 1.3,
-                    letterSpacing: 0.0,
-                    color: Color(0xFF353459),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "DD/MM/YYYY",
-                  hintStyle: const TextStyle(color: Colors.black54),
-                  filled: true,
-                  fillColor: const Color(0xffEBEBEF),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 14,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-            ],
-          ),
+      ),
+    );
+  }
+
+  // Label Builder
+  Widget _buildLabel(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 24, bottom: 8),
+      child: Text(
+        text,
+        style: GoogleFonts.poppins(
+          fontSize: 14.4,
+          fontWeight: FontWeight.w700,
+          color: const Color(0xFF353459),
         ),
-        SizedBox(height: 14),
-        Container(
-          padding: EdgeInsets.only(left: 16, right: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Text(
-                  "Blood Type",
-                  style: GoogleFonts.poppins(
-                    fontSize: 14.4,
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.normal,
-                    height: 1.3,
-                    letterSpacing: 0.0,
-                    color: Color(0xFF353459),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              GradientBorderDropdown(
-                onChanged: (String? value) {
-                  log("val:$value");
-                },
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 14),
-        Container(
-          padding: EdgeInsets.only(left: 16, right: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Text(
-                  "No. of Units",
-                  style: GoogleFonts.poppins(
-                    fontSize: 14.4,
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.normal,
-                    height: 1.3,
-                    letterSpacing: 0.0,
-                    color: Color(0xFF353459),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "No. of Units needed",
-                  hintStyle: const TextStyle(color: Colors.black54),
-                  filled: true,
-                  fillColor: const Color(0xffEBEBEF),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 14,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 12),
-        Container(
-          padding: EdgeInsets.only(left: 16, right: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Text(
-                  "Your Contact",
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.normal,
-                    height: 1.3,
-                    letterSpacing: 0.0,
-                    color: const Color(0xff353459),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Enter Your Contact Number",
-                  hintStyle: const TextStyle(color: Colors.black54),
-                  filled: true,
-                  fillColor: const Color(0xffEBEBEF),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 14,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 12),
-        Container(
-          padding: EdgeInsets.only(left: 16, right: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Text(
-                  "Patient Name",
-                  style: GoogleFonts.poppins(
-                    fontSize: 14.4,
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.normal,
-                    height: 1.3,
-                    letterSpacing: 0.0,
-                    color: const Color(0xff353459),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Enter Patient Name",
-                  hintStyle: const TextStyle(color: Colors.black54),
-                  filled: true,
-                  fillColor: const Color(0xffEBEBEF),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 14,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 12),
-        Container(
-          padding: EdgeInsets.only(left: 16, right: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Text(
-                  "Hospital",
-                  style: GoogleFonts.poppins(
-                    fontSize: 14.4, // font-size: 14.4px
-                    fontWeight: FontWeight.w700, // font-weight: 700 (Bold)
-                    fontStyle: FontStyle
-                        .normal, // font-style: Bold handled by fontWeight
-                    height: 1.3, // line-height: 130% (130 / 100 = 1.3)
-                    letterSpacing: 0.0, // letter-spacing: 0%
-                    color: Color(0xFF353459), // color: #353459
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Hospital Name",
-                  hintStyle: const TextStyle(color: Colors.black54),
-                  filled: true,
-                  fillColor: const Color(0xffEBEBEF),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 14,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 24),
-        GradientBorderContainer(name: 'Request', onTap: () {}),
-        SizedBox(height: 24),
-      ],
+      ),
+    );
+  }
+
+  // Common Input Decoration
+  InputDecoration _inputDecoration(String hint) {
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: const TextStyle(color: Colors.black54),
+      filled: true,
+      fillColor: const Color(0xffEBEBEF),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(50),
+        borderSide: BorderSide.none,
+      ),
     );
   }
 }

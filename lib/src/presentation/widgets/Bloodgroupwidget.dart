@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
-class GradientBorderDropdown extends StatefulWidget {
+class BloodGroupPicker extends StatefulWidget {
   final ValueChanged<String?> onChanged; // callback for selected value
   final List<String> items;
 
-  const GradientBorderDropdown({
+  const BloodGroupPicker({
     super.key,
     required this.onChanged,
-    this.items = const ['Option 1', 'Option 2', 'Option 3'],
+    this.items = const ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
   });
 
   @override
-  _GradientBorderDropdownState createState() => _GradientBorderDropdownState();
+  _BloodGroupPickerState createState() => _BloodGroupPickerState();
 }
 
-class _GradientBorderDropdownState extends State<GradientBorderDropdown> {
-  String? selectedValue; // starts as null (no initial selection)
+class _BloodGroupPickerState extends State<BloodGroupPicker> {
+  String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class _GradientBorderDropdownState extends State<GradientBorderDropdown> {
           color: Color(0xFFEBEBEF),
           borderRadius: BorderRadius.circular(45),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 12),
+        padding: EdgeInsets.only(left: 22, right: 22),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             dropdownColor: Colors.white,
@@ -43,7 +43,7 @@ class _GradientBorderDropdownState extends State<GradientBorderDropdown> {
               setState(() {
                 selectedValue = value;
               });
-              widget.onChanged(value); // send selected value back
+              widget.onChanged(value);
             },
           ),
         ),

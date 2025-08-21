@@ -8,7 +8,7 @@ class Splashscreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ctrl = Get.put(Appstartupcontroller());
+    Get.put(Appstartupcontroller());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
