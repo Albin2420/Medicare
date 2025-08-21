@@ -102,8 +102,13 @@ class Landingscreen extends StatelessWidget {
                         ),
                         Text(
                           "Home Screen",
+                          textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w400, // Regular = 400
+                            fontStyle: FontStyle.normal,
+                            fontSize: 11.2,
+                            height: 1.3, // Line height (130%)
+                            letterSpacing: 0, // 0% = 0px
                             color: controller.currentpageIndex.value == 0
                                 ? Colors.white
                                 : Color(0xff9493A7),
@@ -133,8 +138,13 @@ class Landingscreen extends StatelessWidget {
                         ),
                         Text(
                           "Request Blood",
+                          textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w400, // Regular = 400
+                            fontStyle: FontStyle.normal,
+                            fontSize: 11.2,
+                            height: 1.3, // Line height (130%)
+                            letterSpacing: 0, // 0% = 0px
                             color: controller.currentpageIndex.value == 1
                                 ? Colors.white
                                 : Color(0xff9493A7),
@@ -164,8 +174,13 @@ class Landingscreen extends StatelessWidget {
                         ),
                         Text(
                           "Donate Blood",
+                          textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w400, // Regular = 400
+                            fontStyle: FontStyle.normal,
+                            fontSize: 11.2,
+                            height: 1.3, // Line height (130%)
+                            letterSpacing: 0, // 0% = 0px
                             color: controller.currentpageIndex.value == 2
                                 ? Colors.white
                                 : Color(0xff9493A7),

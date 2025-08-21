@@ -6,6 +6,7 @@ import 'package:medicare/src/domain/repositories/token/tokenRepo.dart';
 import 'package:medicare/src/presentation/screens/Home/landing.dart';
 import 'package:medicare/src/presentation/screens/login/login.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class Appstartupcontroller extends GetxController {
   final _secureStorage = const FlutterSecureStorage();
@@ -16,6 +17,7 @@ class Appstartupcontroller extends GetxController {
     log("appstartup controller");
     super.onInit();
     checktoken();
+    getFcmToken();
   }
 
   Future<void> checktoken() async {
@@ -80,5 +82,22 @@ class Appstartupcontroller extends GetxController {
 
   Future<void> clearRideId() async {
     await _secureStorage.delete(key: 'rideId');
+  }
+
+  void getFcmToken() async {
+    try {
+      log("🔄 Requesting permission...");
+      await FirebaseMessaging.instance.requestPermission();
+
+      log("🔄 Checking if FCM is supported...");
+      final isSupported = await FirebaseMessaging.instance.isSupported();
+      log("✅ FCM Supported: $isSupported");
+
+      log("🔄 Getting FCM token...");
+      String? token = await FirebaseMessaging.instance.getToken();
+      log("✅ FCM Token: $token");
+    } catch (e) {
+      log("❌  error in getFcmToken():$e");
+    }
   }
 }

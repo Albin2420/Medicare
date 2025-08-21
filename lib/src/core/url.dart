@@ -9,4 +9,7 @@ class Url {
 
   static String checkExpiry = "check-token-expiry";
   static String userCheckonGoingRide = "user/check-ongoing-ride";
+
+  static String bloodRequest = "blood-request";
+  static String bloodDonors = "blood-donors";
 }
