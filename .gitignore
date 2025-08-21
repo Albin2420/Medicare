@@ -21,7 +21,7 @@ migrate_working_dir/
 
 # Environment files
 .env
-firebase_options.dart
+lib/firebase_options.dart
 
 
 # The .vscode folder contains launch configuration and tasks you configure in
