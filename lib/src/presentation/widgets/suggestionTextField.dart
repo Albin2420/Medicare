@@ -13,7 +13,7 @@ class SuggestionTextField extends StatelessWidget {
   const SuggestionTextField({
     super.key,
     required this.suggestions,
-    this.hintText = 'Type here...',
+    this.hintText = 'Enter Hospital Name',
     this.keyboardType = TextInputType.text,
     this.inputFormatters,
     this.validator,
@@ -22,6 +22,8 @@ class SuggestionTextField extends StatelessWidget {
   InputDecoration _inputDecoration(String hint) {
     return InputDecoration(
       hintText: hint,
+      filled: true,
+      fillColor: const Color(0xFFEBEBEF),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(45),
@@ -76,7 +78,7 @@ class SuggestionTextField extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.grey.shade300),
-              color: Colors.white,
+              color: const Color(0xFFEBEBEF), // <-- Suggestion box background
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.2),

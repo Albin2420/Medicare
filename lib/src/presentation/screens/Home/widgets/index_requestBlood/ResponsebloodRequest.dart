@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:medicare/src/presentation/controller/bloodrequestcontroller/bloodrequestcontroller.dart';
 import 'package:medicare/src/presentation/screens/Home/widgets/index_requestBlood/widgets/bloodRequestwidget.dart';
 import 'package:medicare/src/presentation/widgets/BloodInfo1.dart';
@@ -17,11 +18,17 @@ class ResponsebloodRequest extends StatelessWidget {
       final isResponseDonorsEmpty = ctrl.responseDonors.isEmpty;
 
       if (isActiveReqEmpty && isResponseDonorsEmpty) {
-        return const Center(
+        return Center(
           child: Text(
-            'No active requests or donor responses found.',
-            style: TextStyle(fontSize: 16, color: Colors.grey),
+            'No active requests or donor found.',
             textAlign: TextAlign.center,
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              height: 1.5,
+              letterSpacing: 0,
+              color: Colors.black.withOpacity(0.7),
+            ),
           ),
         );
       }
@@ -57,7 +64,8 @@ class ResponsebloodRequest extends StatelessWidget {
                   infonName: donor.name,
                   infoLocation: donor.landmark,
                   contact: () {
-                    // Add your contact logic here if needed
+                    log("hey");
+                    ctrl.makePhoneCall(phoneNumber: donor.mobile);
                   },
                   infobloodGroup: donor.bloodType,
                 ),

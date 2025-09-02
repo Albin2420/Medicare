@@ -29,7 +29,6 @@ class Acceptdonorsrepoimpl extends Acceptdonorsrepo {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        log("id:$id");
         log(
           "✅ Response Status of /${Url.baseUrl}/blood-request/$id/accept: ${response.statusCode}",
         );

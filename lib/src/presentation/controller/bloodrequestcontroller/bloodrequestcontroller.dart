@@ -14,6 +14,7 @@ import 'package:medicare/src/data/repositories/bloodDonateRepoImpl/bloodDonateRe
 import 'package:medicare/src/data/repositories/bloodRequestRepoImpl/bloodRequestRepoImpl.dart';
 import 'package:medicare/src/data/repositories/endmyreqrepo/endmyreqrepoimpl.dart';
 import 'package:medicare/src/data/repositories/isthereanyreq/isthereanyreqrepoImpl.dart';
+import 'package:medicare/src/data/services/makecall/makephonecall.dart';
 import 'package:medicare/src/domain/repositories/acceptdonors/acceptdonorsrepo.dart';
 import 'package:medicare/src/domain/repositories/bloodDonateRepo/bloodDonateRepo.dart';
 import 'package:medicare/src/domain/repositories/bloodRequestRepo/bloodRequestRepo.dart';
@@ -61,6 +62,8 @@ class Bloodrequestcontroller extends GetxController {
   var dist = <String>[].obs;
   var currentHospital = <String>[].obs;
 
+  final callHelper = Makephonecall();
+
   @override
   void onInit() async {
     super.onInit();
@@ -84,6 +87,14 @@ class Bloodrequestcontroller extends GetxController {
       });
     } catch (e) {
       log("error in hasAnyRequests:$e");
+    }
+  }
+
+  Future<void> makePhoneCall({required String phoneNumber}) async {
+    try {
+      callHelper.makePhoneCallservice(phoneNumber: phoneNumber);
+    } catch (e) {
+      log("error:$e");
     }
   }
 

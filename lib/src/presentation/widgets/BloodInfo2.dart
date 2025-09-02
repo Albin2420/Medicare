@@ -31,6 +31,9 @@ class BloodInfo2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final fontScale = screenWidth / 390; // Based on iPhone 13 width
+
     return Stack(
       children: [
         Container(
@@ -60,7 +63,7 @@ class BloodInfo2 extends StatelessWidget {
                           infonName,
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
-                            fontSize: 16,
+                            fontSize: 16 * fontScale,
                             height: 1.3,
                           ),
                         ),
@@ -69,7 +72,7 @@ class BloodInfo2 extends StatelessWidget {
                           "$infobloodUnit units",
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w400,
-                            fontSize: 14.4,
+                            fontSize: 14.4 * fontScale,
                             height: 1.3,
                             color: const Color(0xBF28274F),
                           ),
@@ -79,7 +82,7 @@ class BloodInfo2 extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w400,
-                            fontSize: 14.4,
+                            fontSize: 14.4 * fontScale,
                             height: 1.3,
                             color: const Color(0xBF28274F),
                           ),
@@ -89,7 +92,7 @@ class BloodInfo2 extends StatelessWidget {
                           formatDate(infoRequiredDate),
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
-                            fontSize: 15,
+                            fontSize: 15 * fontScale,
                             height: 1.3,
                             color: const Color(0xFF28274F),
                           ),
@@ -98,7 +101,7 @@ class BloodInfo2 extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 4),
+                const SizedBox(width: 4),
                 Expanded(
                   child: Column(
                     children: [
@@ -130,7 +133,7 @@ class BloodInfo2 extends StatelessWidget {
                               "Accept",
                               style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w500,
-                                fontSize: 14.4,
+                                fontSize: 14.4 * fontScale,
                                 height: 1.3,
                                 color: Colors.white,
                               ),
@@ -162,7 +165,7 @@ class BloodInfo2 extends StatelessWidget {
               infobloodGroup,
               style: GoogleFonts.poppins(
                 fontWeight: FontWeight.w700,
-                fontSize: 21.6,
+                fontSize: 21.6 * fontScale,
                 height: 1.3,
                 color: Colors.white,
               ),

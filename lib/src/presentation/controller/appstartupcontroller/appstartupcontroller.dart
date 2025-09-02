@@ -17,6 +17,7 @@ class Appstartupcontroller extends GetxController {
   Getshospitalsrepo gethsptl = Getshospitalsrepoimpl();
   var hospitals = {}.obs;
   var dist = <String>[].obs;
+  RxString fcmToken = RxString("");
 
   @override
   void onInit() {
@@ -25,7 +26,7 @@ class Appstartupcontroller extends GetxController {
   }
 
   Future<void> init() async {
-    log("initialize appstartup controller()");
+    log("🥶 initialize appstartupController()");
     await getHospitals();
   }
 
@@ -137,16 +138,15 @@ class Appstartupcontroller extends GetxController {
 
   Future<String?> getFcmToken() async {
     try {
-      log("🔄 Requesting permission...");
+      log("🔄 Getting FCM token...");
+
       await FirebaseMessaging.instance.requestPermission();
 
-      log("🔄 Checking if FCM is supported...");
-      final isSupported = await FirebaseMessaging.instance.isSupported();
-      log("✅ FCM Supported: $isSupported");
-
-      log("🔄 Getting FCM token...");
       String? token = await FirebaseMessaging.instance.getToken();
       log("✅ FCM Token: $token");
+
+      fcmToken.value = token ?? '';
+
       return token;
     } catch (e) {
       log("❌  error in getFcmToken():$e");
