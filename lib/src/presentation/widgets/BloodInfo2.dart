@@ -7,7 +7,7 @@ class BloodInfo2 extends StatelessWidget {
   final int infobloodUnit;
   final String infoLocation;
   final String infoRequiredDate;
-  final VoidCallback oncontact;
+  final VoidCallback accept;
   final String infobloodGroup;
 
   const BloodInfo2({
@@ -16,7 +16,7 @@ class BloodInfo2 extends StatelessWidget {
     required this.infobloodUnit,
     required this.infoLocation,
     required this.infoRequiredDate,
-    required this.oncontact,
+    required this.accept,
     required this.infobloodGroup,
   });
 
@@ -57,7 +57,7 @@ class BloodInfo2 extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Alex",
+                          infonName,
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
@@ -111,7 +111,7 @@ class BloodInfo2 extends StatelessWidget {
                       const SizedBox(height: 4),
                       Expanded(
                         child: GestureDetector(
-                          onTap: oncontact,
+                          onTap: accept,
                           child: Container(
                             decoration: BoxDecoration(
                               gradient: const LinearGradient(

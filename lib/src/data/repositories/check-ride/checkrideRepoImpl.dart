@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:medicare/src/core/network/failure.dart';
 import 'package:medicare/src/core/url.dart';
 import 'package:medicare/src/domain/repositories/check-ride/check_rideRepo.dart';
-import 'package:medicare/src/domain/repositories/location/locationrepo.dart';
 
 class CheckRiderepoimpl extends CheckRiderepo {
   final Dio _dio = Dio();
@@ -34,6 +33,7 @@ class CheckRiderepoimpl extends CheckRiderepo {
       log("Response Body: ${response.data}");
 
       if (response.statusCode == 200 || response.statusCode == 201) {
+        log("✅ Response Status of $url : ${response.statusCode}");
         final responseBody = response.data as Map<String, dynamic>;
 
         if (responseBody['ongoing'] == true) {
@@ -46,13 +46,14 @@ class CheckRiderepoimpl extends CheckRiderepo {
           return right({"ongoing": responseBody['ongoing']});
         }
       } else {
+        log("❌ Response Status of $url : ${response.statusCode}");
         return left(Failure(message: 'Server error: ${response.statusCode}'));
       }
     } on DioException catch (e) {
-      log("Dio error: ${e.message}");
+      log("❌ Dio error: ${e.message}");
       return left(Failure(message: 'Network error: ${e.message}'));
     } catch (e) {
-      log("Unexpected error: $e");
+      log("💥 Unexpected error: $e");
       return left(Failure(message: 'Unexpected error occurred'));
     }
   }

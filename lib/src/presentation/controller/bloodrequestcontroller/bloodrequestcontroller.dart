@@ -6,11 +6,19 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:medicare/src/data/models/BRModel1.dart';
 import 'package:medicare/src/data/models/BRModel2.dart';
+import 'package:medicare/src/data/models/BRModel3.dart';
+import 'package:medicare/src/data/models/BRModel4.dart';
+import 'package:medicare/src/data/repositories/acceptdonors/acceptdonorsrepoimpl.dart';
 
 import 'package:medicare/src/data/repositories/bloodDonateRepoImpl/bloodDonateRepoImpl.dart';
 import 'package:medicare/src/data/repositories/bloodRequestRepoImpl/bloodRequestRepoImpl.dart';
+import 'package:medicare/src/data/repositories/endmyreqrepo/endmyreqrepoimpl.dart';
+import 'package:medicare/src/data/repositories/isthereanyreq/isthereanyreqrepoImpl.dart';
+import 'package:medicare/src/domain/repositories/acceptdonors/acceptdonorsrepo.dart';
 import 'package:medicare/src/domain/repositories/bloodDonateRepo/bloodDonateRepo.dart';
 import 'package:medicare/src/domain/repositories/bloodRequestRepo/bloodRequestRepo.dart';
+import 'package:medicare/src/domain/repositories/endmyreq/endmyreqrepo.dart';
+import 'package:medicare/src/domain/repositories/isthereanyreq/isthereanyreqrepo.dart';
 import 'package:medicare/src/presentation/controller/appstartupcontroller/appstartupcontroller.dart';
 
 class Bloodrequestcontroller extends GetxController {
@@ -21,17 +29,13 @@ class Bloodrequestcontroller extends GetxController {
   RxInt currentIndex = RxInt(0);
   RxInt donateBloodIndex = RxInt(0);
   final responseDonors = <BRModel1>[].obs;
+  final activereq = <BRModel4>[].obs;
 
   final bloodRequests = <BRModel2>[].obs;
-  //categorzedList
-  final aPositive = <BRModel2>[].obs;
-  final bPositive = <BRModel2>[].obs;
-  final oPositive = <BRModel2>[].obs;
-  final aNegative = <BRModel2>[].obs;
-  final bNegative = <BRModel2>[].obs;
-  final abNegative = <BRModel2>[].obs;
-  final oNegative = <BRModel2>[].obs;
-  final abPositive = <BRModel2>[].obs;
+
+  var general = <BRModel3>[].obs;
+  var criticalRequest = <BRModel2>[].obs;
+  var matchingRequests = <BRModel2>[].obs;
 
   RxBool critical = RxBool(false);
   RxString requestDate = RxString('');
@@ -41,19 +45,46 @@ class Bloodrequestcontroller extends GetxController {
   TextEditingController contactNumber = TextEditingController();
   TextEditingController patienTName = TextEditingController();
   TextEditingController hospitalName = TextEditingController();
+  RxString district = RxString("");
+  RxString userGrp = RxString("");
 
   final pageController = PageController();
   RxBool hasErrorinFetchDonor = RxBool(false);
   RxInt bloodFilterIndex = RxInt(0);
-  var filterList = ["All", "A+", "B+", "O+", "A-", "B-", "AB-", "O-", "AB+"];
+
+  RxBool isBloodRequested = RxBool(false);
+
+  Isthereanyreqrepo isthereanyreq = Isthereanyrepoimpl();
+  Endmyreqrepo endmyreq = Endmyreqrepoimpl();
+  Acceptdonorsrepo accept = Acceptdonorsrepoimpl();
+
+  var dist = <String>[].obs;
+  var currentHospital = <String>[].obs;
 
   @override
   void onInit() async {
     super.onInit();
     final token = await ctrlr.getAccessToken();
     accessToken.value = token!;
+    dist.value = ctrlr.dist;
+    hasAnyRequests();
     fetchDonar();
-    log("Bloodrequestcontroller()");
+    log("initialize Bloodrequestcontroller()");
+  }
+
+  Future<void> hasAnyRequests() async {
+    try {
+      final res = await isthereanyreq.isthereAnyReq(
+        accesstoken: accessToken.value,
+      );
+      res.fold((l) {}, (R) {
+        // isBloodRequested set true if active req;
+        activereq.value = R['active_blood_requests'];
+        responseDonors.value = R['acceptedusers'];
+      });
+    } catch (e) {
+      log("error in hasAnyRequests:$e");
+    }
   }
 
   Future<void> fetchDonar() async {
@@ -66,24 +97,25 @@ class Bloodrequestcontroller extends GetxController {
           hasErrorinFetchDonor.value = true;
         },
         (R) {
-          aPositive.value = R['A+'];
-          bPositive.value = R['B+'];
-          abPositive.value = R['AB+'];
-          oPositive.value = R['O+'];
-          aNegative.value = R['A-'];
-          bNegative.value = R['B-'];
-          abNegative.value = R['AB-'];
-          oNegative.value = R['O-'];
-          bloodRequests.value = R['requests'];
-
-          log(
-            "A+: ${aPositive.length},B+: ${bPositive.length},AB+ :${abPositive.length},O+ :${oPositive.length},A- :${aNegative.length},B- :${bNegative.length},AB- :${abNegative.length},O- :${oNegative.length}",
-          );
-          log("total:${bloodRequests.length}");
+          userGrp.value = R['user_blood_type'];
+          criticalRequest.value = R['criticalRequest'];
+          matchingRequests.value = R['matching_requests'];
+          general.value = R['general'];
+          hasErrorinFetchDonor.value = false;
         },
       );
     } catch (e) {
-      log("error in fetchDonar()");
+      log("error in fetchDonar():$e");
+      hasErrorinFetchDonor.value = true;
+    }
+  }
+
+  void filterHospital({required String district}) {
+    try {
+      hospitalName.clear();
+      currentHospital.value = ctrlr.filterHospitals(district: district);
+    } catch (e) {
+      log("error in filterHospital():$e");
     }
   }
 
@@ -99,6 +131,7 @@ class Bloodrequestcontroller extends GetxController {
         contactNumber: contactNumber.text,
         patientName: patienTName.text,
         hospitalName: hospitalName.text,
+        district: district.value,
       );
 
       res.fold(
@@ -107,7 +140,7 @@ class Bloodrequestcontroller extends GetxController {
           EasyLoading.dismiss();
         },
         (R) {
-          responseDonors.value = R['list_donors'];
+          isBloodRequested.value = true;
           clear();
           Fluttertoast.showToast(
             msg: "Request submitted! We’ll notify you when a donor responds",
@@ -134,10 +167,101 @@ class Bloodrequestcontroller extends GetxController {
 
   void onPagechange({required int index}) {
     try {
+      if (index == 1) {
+        hasAnyRequests();
+      }
       pageController.jumpToPage(index);
       currentIndex.value = index;
     } catch (e) {
       log("Error in onPagechange():$e");
+    }
+  }
+
+  Future<void> acceptReqownGroup({required int id}) async {
+    try {
+      EasyLoading.show();
+      final res = await accept.acceptReq(
+        accesstoken: accessToken.value,
+        id: id,
+      );
+      res.fold(
+        (l) {
+          if (l.message == "You already accepted this request") {
+            Fluttertoast.showToast(msg: "You already accepted this request");
+            clearAcceptedcasesownGroup(id: id);
+          }
+          EasyLoading.dismiss();
+        },
+        (R) {
+          EasyLoading.dismiss();
+          clearAcceptedcasesownGroup(id: id);
+        },
+      );
+    } catch (e) {
+      log("error in acceptReq():$e");
+    }
+  }
+
+  Future<void> clearAcceptedcasesownGroup({required int id}) async {
+    try {
+      matchingRequests.removeWhere((request) => request.bloodRequestId == id);
+    } catch (e) {
+      log("error in clearAcceptedcases():$e");
+    }
+  }
+
+  Future<void> acceptReqcriticalGroup({required int id}) async {
+    try {
+      EasyLoading.show();
+      final res = await accept.acceptReq(
+        accesstoken: accessToken.value,
+        id: id,
+      );
+      res.fold(
+        (l) {
+          if (l.message == "You already accepted this request") {
+            Fluttertoast.showToast(msg: "You already accepted this request");
+            clearAcceptedcriticalGroup(id: id);
+          }
+          EasyLoading.dismiss();
+        },
+        (R) {
+          EasyLoading.dismiss();
+          clearAcceptedcriticalGroup(id: id);
+        },
+      );
+    } catch (e) {
+      log("error in acceptReq():$e");
+    }
+  }
+
+  Future<void> clearAcceptedcriticalGroup({required int id}) async {
+    try {
+      criticalRequest.removeWhere((request) => request.bloodRequestId == id);
+    } catch (e) {
+      log("error in clearAcceptedcases():$e");
+    }
+  }
+
+  Future<void> endRequest({required int reqId}) async {
+    try {
+      EasyLoading.show();
+      final res = await endmyreq.endMyReq(
+        accesstoken: accessToken.value,
+        reqId: reqId,
+      );
+      res.fold(
+        (l) {
+          EasyLoading.dismiss();
+        },
+        (R) {
+          hasAnyRequests();
+          EasyLoading.dismiss();
+        },
+      );
+    } catch (e) {
+      EasyLoading.dismiss();
+      log("❌ error in endRequest():$e");
     }
   }
 }

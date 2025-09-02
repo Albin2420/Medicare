@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import 'package:medicare/src/presentation/controller/registrationcontroller/registrationcontroller.dart';
-
+import 'package:pinput/pinput.dart';
 import 'package:medicare/src/presentation/widgets/gradientbutton.dart';
 
 class Otp extends StatelessWidget {
@@ -14,6 +11,20 @@ class Otp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ctrl = Get.find<Registrationcontroller>();
+    final defaultPinTheme = PinTheme(
+      width: 56,
+      height: 56,
+      textStyle: const TextStyle(
+        fontSize: 20,
+        color: Color(0xff353459),
+        fontWeight: FontWeight.w600,
+      ),
+      decoration: BoxDecoration(
+        color: const Color(0xffEBEBEF),
+        borderRadius: BorderRadius.circular(12),
+      ),
+    );
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -49,96 +60,68 @@ class Otp extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: Column(
-          children: [
-            SizedBox(height: 80),
-            // Phone Number
-            Row(
-              children: [
-                Text(
-                  "Phone Number",
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Pinput(
+                controller: ctrl.regotpcontroller,
+                length: 6,
+                defaultPinTheme: defaultPinTheme,
+                showCursor: true,
+                onCompleted: (pin) {
+                  debugPrint('Entered OTP: $pin');
+                },
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Enter the 6-digit OTP sent to your mobile number. Make sure it’s correct.",
+                  textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                    color: const Color(0xff353459),
+                    fontSize: 14,
+                    color: const Color(0xFF1A1A1A),
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              onSubmitted: (value) {
-                if (value.length == 10) {
-                  ctrl.sendotp();
-                  log("User pressed enter with 6-digit OTP: $value");
-                }
-              },
-              maxLength: 10,
-              controller: ctrl.phoneNumbercontroller,
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                hintText: "Enter Phone Number",
-                hintStyle: const TextStyle(color: Colors.black54),
-                filled: true,
-                fillColor: const Color(0xffEBEBEF),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 14,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
-                  borderSide: BorderSide.none,
-                ),
               ),
-            ),
-            SizedBox(height: 36),
-            Row(
-              children: [
-                Text(
-                  "otp",
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                    color: const Color(0xff353459),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              maxLength: 6,
-              controller: ctrl.otpcontroller,
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                hintText: "Enter otp",
-                hintStyle: const TextStyle(color: Colors.black54),
-                filled: true,
-                fillColor: const Color(0xffEBEBEF),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 14,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-            SizedBox(height: 36),
-          ],
+              const SizedBox(height: 20),
+              Obx(() {
+                return ctrl.canResend.value
+                    ? TextButton(
+                        onPressed: ctrl.sendotp,
+                        child: const Text(
+                          "Resend OTP",
+                          style: TextStyle(color: Color(0xFF27264D)),
+                        ),
+                      )
+                    : Text(
+                        "Resend OTP in ${ctrl.timer.value} sec",
+                        style: const TextStyle(color: Color(0xFF27264D)),
+                      );
+              }),
+            ],
+          ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        elevation: 8,
-        child: GradientBorderContainer(
-          name: "submit",
-          onTap: () {
-            ctrl.submitRegistration();
-          },
-        ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 5),
+          BottomAppBar(
+            color: Colors.white,
+            elevation: 8,
+            child: GradientBorderContainer(
+              name: 'Submit',
+              onTap: () {
+                ctrl.submitRegistration();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

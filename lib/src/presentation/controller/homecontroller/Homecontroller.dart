@@ -1,10 +1,8 @@
-// controllers are use in this folder
-
 import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
+
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -14,7 +12,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart' as latlng;
-import 'package:medicare/src/data/repositories/check-ride/check_rideRepoImpl.dart';
+import 'package:medicare/src/data/repositories/check-ride/checkrideRepoImpl.dart';
 import 'package:medicare/src/data/services/hive_services/rideDetails/ambulance_data.dart';
 import 'package:medicare/src/domain/repositories/check-ride/check_rideRepo.dart';
 import 'package:medicare/src/presentation/screens/Home/landing.dart';

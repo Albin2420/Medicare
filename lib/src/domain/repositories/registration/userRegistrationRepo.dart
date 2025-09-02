@@ -6,5 +6,8 @@ abstract class UserRegistrationRepo {
     required String frstName,
     required String secondName,
     required String phoneNumber,
+    required String dob,
+    required String fcmtoKen,
+    required String district,
   });
 }

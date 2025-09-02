@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Bloodinfo3 extends StatelessWidget {
-  const Bloodinfo3({super.key});
+  final String bloodGroup;
+  final int count;
+  final String dist;
+  const Bloodinfo3({
+    super.key,
+    required this.bloodGroup,
+    required this.count,
+    required this.dist,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +31,7 @@ class Bloodinfo3 extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  "A+",
+                  bloodGroup,
                   textAlign: TextAlign.center, // Center alignment
                   style: GoogleFonts.poppins(
                     fontSize: 21.6, // 21.6px
@@ -48,7 +56,9 @@ class Bloodinfo3 extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "32 lives in Kochi need B+.",
+                      "$count lives in $dist need $bloodGroup.",
+                      overflow: TextOverflow.clip,
+                      maxLines: 1,
                       style: GoogleFonts.poppins(
                         fontSize: 16, // 16px
                         fontWeight: FontWeight.w500, // 500 weight

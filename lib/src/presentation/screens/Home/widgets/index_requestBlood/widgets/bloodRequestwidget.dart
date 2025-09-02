@@ -17,7 +17,7 @@ class Bloodrequestwidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(20),
+      margin: EdgeInsets.all(8),
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(

@@ -15,7 +15,7 @@ class EmergencyReq extends StatelessWidget {
     return Expanded(
       flex: 3,
       child: Obx(() {
-        if (ctr.bloodRequests.isEmpty) {
+        if (ctr.criticalRequest.isEmpty) {
           return Center(
             child: Text(
               "No donors available right now.\nPlease check again later",
@@ -32,19 +32,22 @@ class EmergencyReq extends StatelessWidget {
         }
 
         return ListView.builder(
-          itemCount: 8,
+          itemCount: ctr.criticalRequest.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: EdgeInsets.only(bottom: 10, left: 16, right: 16),
               child: BloodInfo2(
-                infonName: "Alex",
-                infobloodUnit: 3,
-                infoLocation: 'GSM medical college kottayam',
-                infoRequiredDate: "23-05-2025",
-                oncontact: () {
-                  log("contact:${ctr.bloodRequests[index].mobile}");
+                infonName: ctr.criticalRequest[index].patientName,
+                infobloodUnit: ctr.criticalRequest[index].noOfUnits,
+                infoLocation: ctr.criticalRequest[index].hospital,
+                infoRequiredDate: ctr.criticalRequest[index].requiredDate
+                    .toString(),
+                accept: () {
+                  ctr.acceptReqcriticalGroup(
+                    id: ctr.criticalRequest[index].bloodRequestId,
+                  );
                 },
-                infobloodGroup: "AB-",
+                infobloodGroup: ctr.criticalRequest[index].bloodType,
               ),
             );
           },

@@ -1,7 +1,10 @@
 import 'dart:developer';
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:medicare/src/data/repositories/getHospitals/getHospitalsrepoimpl.dart';
 import 'package:medicare/src/data/repositories/token/tokenRepoImpl.dart';
+import 'package:medicare/src/domain/repositories/getHospitals/getHospitalsrepo.dart';
 import 'package:medicare/src/domain/repositories/token/tokenRepo.dart';
 import 'package:medicare/src/presentation/screens/Home/landing.dart';
 import 'package:medicare/src/presentation/screens/login/login.dart';
@@ -11,13 +14,61 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 class Appstartupcontroller extends GetxController {
   final _secureStorage = const FlutterSecureStorage();
   final Tokenrepo tokenrepo = Tokenrepoimpl();
+  Getshospitalsrepo gethsptl = Getshospitalsrepoimpl();
+  var hospitals = {}.obs;
+  var dist = <String>[].obs;
 
   @override
   void onInit() {
-    log("appstartup controller");
     super.onInit();
-    checktoken();
-    getFcmToken();
+    init();
+  }
+
+  Future<void> init() async {
+    log("initialize appstartup controller()");
+    await getHospitals();
+  }
+
+  Future<void> getHospitals() async {
+    try {
+      final res = await gethsptl.getHospitals();
+      res.fold(
+        (l) {
+          Fluttertoast.showToast(msg: "oops couldn't find server");
+        },
+        (R) {
+          hospitals.value = R['hospitals'];
+          getdist();
+          checktoken();
+          getFcmToken();
+        },
+      );
+    } catch (e) {
+      log("error in getHospitals():$e");
+    }
+  }
+
+  Future<void> getdist() async {
+    try {
+      List<String> temp = hospitals.keys.map((key) => key.toString()).toList();
+      dist.value = temp;
+    } catch (e) {
+      log("error in getdist():$e");
+    }
+  }
+
+  List<String> filterHospitals({required String district}) {
+    try {
+      final result = hospitals[district];
+      if (result is List) {
+        return result.cast<String>();
+      } else {
+        return [];
+      }
+    } catch (e) {
+      log("error in filterHospitals():$e");
+      return [];
+    }
   }
 
   Future<void> checktoken() async {
@@ -84,7 +135,7 @@ class Appstartupcontroller extends GetxController {
     await _secureStorage.delete(key: 'rideId');
   }
 
-  void getFcmToken() async {
+  Future<String?> getFcmToken() async {
     try {
       log("🔄 Requesting permission...");
       await FirebaseMessaging.instance.requestPermission();
@@ -96,8 +147,10 @@ class Appstartupcontroller extends GetxController {
       log("🔄 Getting FCM token...");
       String? token = await FirebaseMessaging.instance.getToken();
       log("✅ FCM Token: $token");
+      return token;
     } catch (e) {
       log("❌  error in getFcmToken():$e");
+      return null;
     }
   }
 }

@@ -19,7 +19,6 @@ class Login extends StatelessWidget {
     // Check if keyboard is visible
     final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     final isKeyboardVisible = keyboardHeight > 0;
-    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -139,7 +138,6 @@ class Login extends StatelessWidget {
 
                               const SizedBox(height: 36),
 
-                              // Last Name
                               Text(
                                 "OTP",
                                 style: GoogleFonts.poppins(

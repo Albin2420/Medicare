@@ -3,13 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 class BloodInfo1 extends StatelessWidget {
   final String infonName;
-  final int bloodUnit;
+
   final String infoLocation;
   final VoidCallback contact;
   final String infobloodGroup;
   const BloodInfo1({
     super.key,
-    required this.bloodUnit,
+
     required this.infonName,
     required this.infoLocation,
 

@@ -13,7 +13,7 @@ class OwnGroup extends StatelessWidget {
     return Expanded(
       flex: 3,
       child: Obx(() {
-        if (ctr.abNegative.isEmpty) {
+        if (ctr.matchingRequests.isEmpty) {
           return Center(
             child: Text(
               "No donors available right now.\nPlease check again later",
@@ -30,17 +30,22 @@ class OwnGroup extends StatelessWidget {
         }
 
         return ListView.builder(
-          itemCount: 5,
+          itemCount: ctr.matchingRequests.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: EdgeInsets.only(bottom: 10, left: 16, right: 16),
               child: BloodInfo2(
-                infonName: "Amal",
-                infobloodUnit: 6,
-                infoLocation: "Carmel Hospital Aluva",
-                infoRequiredDate: "23-08-2025",
-                oncontact: () {},
-                infobloodGroup: "B+",
+                infonName: ctr.matchingRequests[index].patientName,
+                infobloodUnit: ctr.matchingRequests[index].noOfUnits,
+                infoLocation: ctr.matchingRequests[index].hospital,
+                infoRequiredDate: ctr.matchingRequests[index].requiredDate
+                    .toString(),
+                accept: () {
+                  ctr.acceptReqownGroup(
+                    id: ctr.matchingRequests[index].bloodRequestId,
+                  );
+                },
+                infobloodGroup: ctr.matchingRequests[index].bloodType,
               ),
             );
           },

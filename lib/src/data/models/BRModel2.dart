@@ -1,31 +1,42 @@
+// br_model2.dart
+
 class BRModel2 {
-  final String userName;
+  final int bloodRequestId;
+  final String patientName;
+  final String hospital;
   final String mobile;
   final DateTime requiredDate;
-  final String location;
   final int noOfUnits;
   final String bloodType;
   final bool critical;
 
   BRModel2({
-    required this.userName,
+    required this.bloodRequestId,
+    required this.patientName,
+    required this.hospital,
     required this.mobile,
     required this.requiredDate,
-    required this.location,
     required this.noOfUnits,
     required this.bloodType,
     required this.critical,
   });
 
+  // Convert JSON to BRModel2 object
   factory BRModel2.fromJson(Map<String, dynamic> json) {
     return BRModel2(
-      userName: json['user_name'] ?? '',
-      mobile: json['mobile'] ?? '',
+      bloodRequestId: json['blood_request_id'],
+      patientName: json['patient_name'],
+      hospital: json['hospital'],
+      mobile: json['mobile'],
       requiredDate: DateTime.parse(json['required_date']),
-      location: json['location'] ?? '',
-      noOfUnits: json['no_of_units'] ?? 0,
-      bloodType: json['blood_type'] ?? '',
-      critical: json['critical'] ?? false,
+      noOfUnits: json['no_of_units'],
+      bloodType: json['blood_type'],
+      critical: json['critical'],
     );
+  }
+
+  // Convert a list of JSON to list of BRModel2
+  static List<BRModel2> fromJsonList(List<dynamic> jsonList) {
+    return jsonList.map((json) => BRModel2.fromJson(json)).toList();
   }
 }
