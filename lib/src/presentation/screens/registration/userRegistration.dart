@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medicare/src/presentation/controller/registrationcontroller/registrationcontroller.dart';
-import 'package:medicare/src/presentation/screens/registration/otp.dart';
+import 'package:medicare/src/presentation/widgets/Datepicker.dart';
+import 'package:medicare/src/presentation/widgets/GroupPicker.dart';
 import 'package:medicare/src/presentation/widgets/gradientbutton.dart';
 
 class UserRegistration extends StatelessWidget {
@@ -63,107 +64,155 @@ class UserRegistration extends StatelessWidget {
               physics: const ClampingScrollPhysics(),
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Title Section
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 350),
-                        curve: Curves.easeInOutCubic,
-                        height: isKeyboardVisible ? 120 : 180,
-                        width: double.infinity,
-                        color: Colors.white,
-                        child: Center(
-                          child: AnimatedDefaultTextStyle(
-                            duration: const Duration(milliseconds: 350),
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w700,
-                              fontSize: isKeyboardVisible ? 24 : 30,
-                              color: const Color(0xff353459),
-                            ),
-                            child: const Text("User Registration"),
+                      SizedBox(height: 24),
+                      Center(
+                        child: Text(
+                          "User Registration",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 30,
+                            color: const Color(0xff353459),
                           ),
                         ),
                       ),
 
                       // Form Section
-                      Expanded(
-                        child: Container(
-                          color: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 25),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 20),
+                      const SizedBox(height: 36),
 
-                              // First Name
-                              Text(
-                                "First Name",
-                                style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 20,
-                                  color: const Color(0xff353459),
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-
-                              TextField(
-                                controller: ctrl.firstNamecontroller,
-                                decoration: InputDecoration(
-                                  hintText: "Enter First Name",
-                                  hintStyle: const TextStyle(
-                                    color: Colors.black54,
-                                  ),
-                                  filled: true,
-                                  fillColor: const Color(0xffEBEBEF),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 14,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                ),
-                              ),
-
-                              const SizedBox(height: 36),
-
-                              // Last Name
-                              Text(
-                                "Last Name",
-                                style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 20,
-                                  color: const Color(0xff353459),
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              TextField(
-                                controller: ctrl.secondNamecontroller,
-                                decoration: InputDecoration(
-                                  hintText: "Enter Last Name",
-                                  hintStyle: const TextStyle(
-                                    color: Colors.black54,
-                                  ),
-                                  filled: true,
-                                  fillColor: const Color(0xffEBEBEF),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 14,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                ),
-                              ),
-
-                              const SizedBox(height: 36),
-
-                              SizedBox(height: isKeyboardVisible ? 40 : 60),
-                            ],
+                      // First Name
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24, right: 24),
+                        child: Text(
+                          "First Name",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                            color: const Color(0xff353459),
                           ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12, right: 12),
+                        child: TextField(
+                          controller: ctrl.firstNamecontroller,
+                          decoration: InputDecoration(
+                            hintText: "Enter First Name",
+                            hintStyle: const TextStyle(color: Colors.black54),
+                            filled: true,
+                            fillColor: const Color(0xffEBEBEF),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 14,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 36),
+
+                      // Last Name
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24, right: 24),
+                        child: Text(
+                          "Last Name",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                            color: const Color(0xff353459),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12, right: 12),
+                        child: TextField(
+                          controller: ctrl.lastNamecontroller,
+                          decoration: InputDecoration(
+                            hintText: "Enter Last Name",
+                            hintStyle: const TextStyle(color: Colors.black54),
+                            filled: true,
+                            fillColor: const Color(0xffEBEBEF),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 14,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 36),
+
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24, right: 24),
+                        child: Text(
+                          "Phone Number",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                            color: const Color(0xff353459),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12, right: 12),
+                        child: TextField(
+                          controller: ctrl.phoneNumbercontroller,
+                          maxLength: 10,
+                          decoration: InputDecoration(
+                            hintText: "Enter your phone no.",
+                            hintStyle: const TextStyle(color: Colors.black54),
+                            filled: true,
+                            fillColor: const Color(0xffEBEBEF),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 14,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24, right: 24),
+                        child: Text(
+                          "District",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                            color: const Color(0xff353459),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12, right: 12),
+                        child: GroupPicker(
+                          items: ctrl.dist,
+                          onChanged: (String? dis) {
+                            ctrl.district.value = dis!;
+                          },
                         ),
                       ),
                     ],

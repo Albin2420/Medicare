@@ -16,6 +16,7 @@ class Imagesrepoimpl extends Imagesrepo {
     required int rideId,
     required String mediaId,
   }) async {
+    final url = '${Url.baseUrl}/${Url.image}';
     try {
       final multipartImages = [];
       for (final image in images) {
@@ -32,10 +33,10 @@ class Imagesrepoimpl extends Imagesrepo {
         'ride_id': rideId,
       });
 
-      log("img:${multipartImages[0].filename} rideId :$rideId");
+      log("🔌 POST: $url");
 
       final response = await _dio.post(
-        '${Url.baseUrl}/${Url.image}',
+        url,
         data: formData,
         options: Options(
           contentType: 'multipart/form-data',
@@ -44,18 +45,22 @@ class Imagesrepoimpl extends Imagesrepo {
       );
 
       if (response.statusCode == 200) {
-        log("ohk bie");
+        log("✅ Response Status of $url: ${response.statusCode}");
         return Right(response.data);
       } else {
-        return Left(
-          Failure(
-            message: 'Server responded with status code ${response.statusCode}',
-          ),
-        );
+        log("❌ Response Status of $url: ${response.statusCode}");
+        return Left(Failure(message: "statuscode:${response.statusCode}"));
       }
+    } on DioException catch (e) {
+      log("❌ Dio error in $url: ${e.message}");
+      if (e.response != null) {
+        log("❌ Dio error response : ${e.response?.data}");
+        return left(Failure(message: "${e.response}"));
+      }
+      return Left(Failure(message: "error in :$e"));
     } catch (e) {
-      log("error:$e");
-      return Left(Failure(message: e.toString()));
+      log("💥 Unexpected error in $url : $e");
+      return Left(Failure(message: "Unexpected error in :$e"));
     }
   }
 }

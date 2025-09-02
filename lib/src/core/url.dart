@@ -12,4 +12,8 @@ class Url {
 
   static String bloodRequest = "blood-request";
   static String bloodDonors = "blood-donors";
+  static String bloodreqres = "blood-request/accepted-users";
+  static String endmyReq = "end";
+  static String userBlood = "user-blood";
+  static String hospitals = "hospitals/state-district";
 }

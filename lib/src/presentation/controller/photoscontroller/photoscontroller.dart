@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -9,8 +9,7 @@ import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:medicare/src/data/repositories/media/imagesrepo/imagesrepoimpl.dart';
 import 'package:medicare/src/domain/repositories/media/imagesrepo/imagesrepo.dart';
-import 'package:medicare/src/presentation/controller/homecontroller/Homecontroller.dart';
-import 'package:medicare/src/presentation/screens/photos/photos.dart';
+import 'package:medicare/src/presentation/controller/homecontroller/homecontroller.dart';
 
 class PhotosController extends GetxController {
   final ctrl = Get.find<Homecontroller>();
@@ -279,12 +278,6 @@ class PhotosController extends GetxController {
     } catch (e) {
       log('Focus adjustment failed: $e');
     }
-  }
-
-  /// Provide capture feedback
-  void _provideFeedback() {
-    // You can add haptic feedback here if needed
-    // HapticFeedback.lightImpact();
   }
 
   /// Pick images with optimized settings

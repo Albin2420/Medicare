@@ -16,9 +16,10 @@ class Locationrepoimpl extends Locationrepo {
     required String accesstoken,
   }) async {
     final url = '${Url.baseUrl}/${Url.loc}';
-    log("POST: $url");
 
     try {
+      log(" 🔌 POST : $url");
+
       final response = await _dio.post(
         url,
         options: Options(
@@ -34,10 +35,8 @@ class Locationrepoimpl extends Locationrepo {
         },
       );
 
-      log("Response Status: ${response.statusCode}");
-      log("Response Body: ${response.data}");
-
       if (response.statusCode == 200 || response.statusCode == 201) {
+        log("✅ Response Status of $url: ${response.statusCode}");
         final responseBody = response.data as Map<String, dynamic>;
 
         return right({
@@ -51,13 +50,17 @@ class Locationrepoimpl extends Locationrepo {
           "rideId": responseBody["ride_id"],
         });
       } else {
+        log("❌ Response Status of $url: ${response.statusCode}");
         return left(Failure(message: 'Server error: ${response.statusCode}'));
       }
     } on DioException catch (e) {
-      log("Dio error: ${e.message}");
+      log("❌ Dio error in $url: ${e.message}");
+      if (e.response != null) {
+        log("❌ Dio error response : ${e.response?.data}");
+      }
       return left(Failure(message: 'Network error: ${e.message}'));
     } catch (e) {
-      log("Unexpected error: $e");
+      log("💥 Unexpected error: $e");
       return left(Failure(message: 'Unexpected error occurred'));
     }
   }

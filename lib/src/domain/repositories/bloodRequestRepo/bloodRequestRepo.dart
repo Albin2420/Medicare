@@ -11,5 +11,6 @@ abstract class BloodRequestRepo {
     required String contactNumber,
     required String patientName,
     required String hospitalName,
+    required String district,
   });
 }

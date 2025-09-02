@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 
-class BloodGroupPicker extends StatefulWidget {
+class GroupPicker extends StatefulWidget {
   final ValueChanged<String?> onChanged; // callback for selected value
   final List<String> items;
 
-  const BloodGroupPicker({
-    super.key,
-    required this.onChanged,
-    this.items = const ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
-  });
+  const GroupPicker({super.key, required this.onChanged, required this.items});
 
   @override
-  _BloodGroupPickerState createState() => _BloodGroupPickerState();
+  _GroupPickerState createState() => _GroupPickerState();
 }
 
-class _BloodGroupPickerState extends State<BloodGroupPicker> {
+class _GroupPickerState extends State<GroupPicker> {
   String? selectedValue;
 
   @override

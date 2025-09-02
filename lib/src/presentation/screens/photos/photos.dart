@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
-import 'package:medicare/src/presentation/controller/homecontroller/Homecontroller.dart';
+import 'package:medicare/src/presentation/controller/homecontroller/homecontroller.dart';
 import 'package:medicare/src/presentation/controller/photoscontroller/photoscontroller.dart';
 import 'package:medicare/src/presentation/widgets/gradientbutton.dart';
 

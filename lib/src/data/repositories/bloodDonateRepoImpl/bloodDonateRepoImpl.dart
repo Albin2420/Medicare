@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:medicare/src/core/network/failure.dart';
 import 'package:medicare/src/core/url.dart';
 import 'package:medicare/src/data/models/BRModel2.dart';
+import 'package:medicare/src/data/models/BRModel3.dart';
+
 import 'package:medicare/src/domain/repositories/bloodDonateRepo/bloodDonateRepo.dart';
 
 class BloodDonateRepoImpl extends BloodDonateRepo {
@@ -14,9 +16,10 @@ class BloodDonateRepoImpl extends BloodDonateRepo {
     required String accesstoken,
   }) async {
     final url = '${Url.baseUrl}/${Url.bloodDonors}';
-    log("GET: $url");
 
     try {
+      log(" 🔌 GET: $url");
+
       final response = await _dio.get(
         url,
         options: Options(
@@ -27,45 +30,37 @@ class BloodDonateRepoImpl extends BloodDonateRepo {
         ),
       );
 
-      log("✅ Response Status of ${Url.bloodDonors}: ${response.statusCode}");
-
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // Convert API response to a list of BRModel2
-        final requests = (response.data as List<dynamic>)
-            .map((item) => BRModel2.fromJson(item))
-            .toList();
+        log("✅ Response Status of $url: ${response.statusCode}");
 
-        log("totalReq:${requests.length}");
+        final criticalRequests = BRModel2.fromJsonList(
+          response.data['critical_requests'],
+        );
 
-        // Group donors by blood type
-        final aPositive = requests.where((r) => r.bloodType == "A+").toList();
-        final bPositive = requests.where((r) => r.bloodType == "B+").toList();
-        final abPositive = requests.where((r) => r.bloodType == "AB+").toList();
-        final oPositive = requests.where((r) => r.bloodType == "O+").toList();
-        final aNegative = requests.where((r) => r.bloodType == "A-").toList();
-        final bNegative = requests.where((r) => r.bloodType == "B-").toList();
-        final abNegative = requests.where((r) => r.bloodType == "AB-").toList();
-        final oNegative = requests.where((r) => r.bloodType == "O-").toList();
+        final userGroup = BRModel2.fromJsonList(
+          response.data['matching_requests'],
+        );
+
+        final general = BRModel3.fromJsonList(
+          response.data['blood_type_summary'],
+        );
 
         return right({
-          "A+": aPositive,
-          "B+": bPositive,
-          "AB+": abPositive,
-          "O+": oPositive,
-          "A-": aNegative,
-          "B-": bNegative,
-          "AB-": abNegative,
-          "O-": oNegative,
-          "requests": requests,
+          "user_blood_type": response.data['user_blood_type'],
+          "criticalRequest": criticalRequests,
+          "matching_requests": userGroup,
+          "general": general,
         });
       } else {
+        log("❌ Response Status of $url: ${response.statusCode}");
+
         return left(Failure(message: 'Server error: ${response.statusCode}'));
       }
     } on DioException catch (e) {
-      log("❌ Dio error: ${e.message}");
+      log("❌ Dio error in $url : ${e.message}");
       return left(Failure(message: 'Network error: ${e.message}'));
     } catch (e) {
-      log("💥 Unexpected error: $e");
+      log("💥 Unexpected error in $url : $e");
       return left(Failure(message: 'Unexpected error occurred'));
     }
   }

@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-import 'package:dartz/dartz.dart';
+
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:medicare/src/data/repositories/media/audiosrepo/audiorepoimpl.dart';
 import 'package:medicare/src/domain/repositories/media/audiosrepo/audiosrepo.dart';
 import 'package:medicare/src/presentation/controller/appstartupcontroller/appstartupcontroller.dart';
-import 'package:medicare/src/presentation/controller/homecontroller/Homecontroller.dart';
+import 'package:medicare/src/presentation/controller/homecontroller/homecontroller.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:audio_waveforms/audio_waveforms.dart';

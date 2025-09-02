@@ -3,8 +3,13 @@ import 'package:intl/intl.dart';
 
 class DatePicker extends StatefulWidget {
   final ValueChanged<String> onDateSelected;
+  final bool showPreviousDates;
 
-  const DatePicker({super.key, required this.onDateSelected});
+  const DatePicker({
+    super.key,
+    required this.onDateSelected,
+    this.showPreviousDates = false, // default to false
+  });
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -15,11 +20,11 @@ class _DatePickerState extends State<DatePicker> {
   String? selectedDateString;
 
   Future<void> _selectDate(BuildContext context) async {
+    final DateTime now = DateTime.now();
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate:
-          selectedDate ?? DateTime.now(), // 👈 use previous date if available
-      firstDate: DateTime.now(),
+      initialDate: selectedDate ?? now,
+      firstDate: widget.showPreviousDates ? DateTime(1900) : now,
       lastDate: DateTime(2100),
       builder: (BuildContext context, Widget? child) {
         return Theme(
@@ -40,9 +45,8 @@ class _DatePickerState extends State<DatePicker> {
 
     if (picked != null) {
       final formattedDate = DateFormat('yyyy-MM-dd').format(picked);
-
       setState(() {
-        selectedDate = picked; // Store raw DateTime for next time
+        selectedDate = picked;
         selectedDateString = formattedDate;
       });
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medicare/src/presentation/controller/bloodrequestcontroller/bloodrequestcontroller.dart';
-import 'package:medicare/src/presentation/controller/homecontroller/Homecontroller.dart';
+import 'package:medicare/src/presentation/controller/homecontroller/homecontroller.dart';
 import 'package:medicare/src/presentation/screens/Home/widgets/index/LandingHome.dart';
 import 'package:medicare/src/presentation/screens/Home/widgets/index/donateBlood.dart';
 import 'package:medicare/src/presentation/screens/Home/widgets/index/requestBlood.dart';

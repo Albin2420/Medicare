@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medicare/src/presentation/controller/bloodrequestcontroller/bloodrequestcontroller.dart';
-import 'package:medicare/src/presentation/widgets/BloodInfo2.dart';
 import 'package:medicare/src/presentation/widgets/Bloodinfo3.dart';
 
 class GeNeralReq extends StatelessWidget {
@@ -14,7 +13,7 @@ class GeNeralReq extends StatelessWidget {
     return Expanded(
       flex: 3,
       child: Obx(() {
-        if (ctr.oNegative.isNotEmpty) {
+        if (ctr.general.isEmpty) {
           return Center(
             child: Text(
               "No donors available right now.\nPlease check again later",
@@ -31,11 +30,15 @@ class GeNeralReq extends StatelessWidget {
         }
 
         return ListView.separated(
-          itemCount: 4,
+          itemCount: ctr.general.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: EdgeInsets.only(bottom: 10, left: 16, right: 16),
-              child: Bloodinfo3(),
+              child: Bloodinfo3(
+                bloodGroup: ctr.general[index].bloodType,
+                count: ctr.general[index].count,
+                dist: ctr.general[index].location,
+              ),
             );
           },
           separatorBuilder: (context, index) {

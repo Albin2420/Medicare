@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:medicare/src/presentation/controller/homecontroller/Homecontroller.dart';
+import 'package:medicare/src/presentation/controller/homecontroller/homecontroller.dart';
 import 'package:medicare/src/presentation/screens/photos/photos.dart';
 import 'package:medicare/src/presentation/screens/voice/voice.dart';
 import 'package:latlong2/latlong.dart' as lat;
@@ -97,7 +97,7 @@ class Home extends StatelessWidget {
               PolylineLayer(
                 polylines: [
                   Polyline(
-                    points: ctrl.routePoints.value,
+                    points: ctrl.routePoints,
                     strokeWidth: 4.0,
                     color: const Color.fromARGB(255, 0, 3, 6),
                   ),

@@ -1,14 +1,18 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medicare/src/presentation/controller/bloodrequestcontroller/bloodrequestcontroller.dart';
+import 'package:medicare/src/presentation/screens/Home/widgets/index_requestBlood/widgets/bloodRequestDatePicker.dart';
+import 'package:medicare/src/presentation/screens/Home/widgets/index_requestBlood/widgets/requestBloodgroupPicker.dart';
 import 'package:medicare/src/presentation/widgets/CriticalToggle.dart';
-import 'package:medicare/src/presentation/widgets/Datepicker.dart';
-import 'package:medicare/src/presentation/widgets/Bloodgroupwidget.dart';
+
+import 'package:medicare/src/presentation/widgets/GroupPicker.dart';
 import 'package:medicare/src/presentation/widgets/gradientbutton.dart';
+import 'package:medicare/src/presentation/widgets/suggestionTextField.dart';
 
 class BloodForm extends StatelessWidget {
   const BloodForm({super.key});
@@ -19,33 +23,24 @@ class BloodForm extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(left: 8, right: 8, top: 0),
       child: Form(
         key: formKey,
         child: ListView(
           children: [
-            CriticalToggle(
-              oncontact: ({required bool value}) {
-                ctrl.critical.value = value;
-              },
-            ),
+            CriticalToggle(),
             const SizedBox(height: 14),
 
             // Required Date
             _buildLabel("Required Date"),
-            DatePicker(
-              onDateSelected: (String value) {
-                ctrl.requestDate.value = value;
-              },
-            ),
+            BloodRequestDatePicker(),
             const SizedBox(height: 14),
 
             // Blood Type
             _buildLabel("Blood Type"),
-            BloodGroupPicker(
-              onChanged: (String? value) {
-                ctrl.bloodGroup.value = value ?? "";
-              },
+            //...
+            RequestBloodGroupPicker(
+              items: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
             ),
             const SizedBox(height: 14),
 
@@ -86,7 +81,7 @@ class BloodForm extends StatelessWidget {
               },
               decoration: _inputDecoration("Enter Your Contact Number"),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
 
             // Patient Name
             _buildLabel("Patient Name"),
@@ -100,20 +95,23 @@ class BloodForm extends StatelessWidget {
               },
               decoration: _inputDecoration("Enter Patient Name"),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
+
+            _buildLabel("District"),
+            GroupPicker(
+              items: ctrl.dist,
+              onChanged: (String? val) {
+                log("onchaged:$val");
+                ctrl.district.value = val!;
+                ctrl.filterHospital(district: val);
+              },
+            ),
+
+            const SizedBox(height: 14),
 
             // Hospital
             _buildLabel("Hospital"),
-            TextFormField(
-              controller: ctrl.hospitalName,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Please enter hospital name";
-                }
-                return null;
-              },
-              decoration: _inputDecoration("Hospital Name"),
-            ),
+            SuggestionTextField(suggestions: ctrl.currentHospital),
             const SizedBox(height: 24),
 
             // Submit Button
@@ -135,6 +133,11 @@ class BloodForm extends StatelessWidget {
                     Fluttertoast.showToast(
                       msg: "Please select a required BloodGroup",
                     );
+                    return;
+                  }
+
+                  if (ctrl.district.value == "") {
+                    Fluttertoast.showToast(msg: "Please choose district");
                     return;
                   }
 
