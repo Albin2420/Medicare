@@ -9,10 +9,8 @@ class BloodInfo1 extends StatelessWidget {
   final String infobloodGroup;
   const BloodInfo1({
     super.key,
-
     required this.infonName,
     required this.infoLocation,
-
     required this.contact,
     required this.infobloodGroup,
   });
@@ -85,39 +83,42 @@ class BloodInfo1 extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 8),
-                  Container(
-                    height: 38,
-                    width: 125,
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: EdgeInsets.only(
-                      left: 20,
-                      top: 10,
-                      bottom: 10,
-                      right: 20,
-                    ),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          height: 16,
-                          width: 16,
-                          child: Image.asset("assets/icons/phonewhite.png"),
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          "Contact",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.4,
-                            height: 1.3,
-                            letterSpacing: 0,
-                            color: Colors.white,
+                  GestureDetector(
+                    onTap: contact,
+                    child: Container(
+                      height: 38,
+                      width: 125,
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: EdgeInsets.only(
+                        left: 20,
+                        top: 10,
+                        bottom: 10,
+                        right: 20,
+                      ),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            height: 16,
+                            width: 16,
+                            child: Image.asset("assets/icons/phonewhite.png"),
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 10),
+                          Text(
+                            "Contact",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14.4,
+                              height: 1.3,
+                              letterSpacing: 0,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

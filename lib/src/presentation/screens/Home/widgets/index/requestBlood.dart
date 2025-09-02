@@ -123,7 +123,7 @@ class Requestblood extends StatelessWidget {
                 child: PageView(
                   controller: ctrl.pageController,
                   physics: const NeverScrollableScrollPhysics(),
-                  children: const [BloodForm(), ResponsebloodRequest()],
+                  children: const [RequestBloodForm(), ResponsebloodRequest()],
                 ),
               ),
             ],

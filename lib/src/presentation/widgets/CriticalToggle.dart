@@ -9,6 +9,8 @@ class CriticalToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ctrl = Get.find<Bloodrequestcontroller>();
+    final screenWidth = MediaQuery.of(context).size.width;
+    final fontScale = screenWidth / 390; // Based on iPhone 13 baseline
 
     return Obx(
       () => Container(
@@ -26,7 +28,7 @@ class CriticalToggle extends StatelessWidget {
               style: GoogleFonts.poppins(
                 fontWeight: FontWeight.w700,
                 fontStyle: FontStyle.normal,
-                fontSize: 20,
+                fontSize: 20 * fontScale, // Responsive font
                 height: 1.3,
                 letterSpacing: 0.0,
                 color: Colors.red,

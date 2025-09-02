@@ -25,7 +25,6 @@ class Registrationcontroller extends GetxController {
   RxString dob = RxString("");
   RxString bloodType = RxString("");
   RxBool isReadytoDonate = RxBool(true);
-  RxString fcmtoken = RxString("");
   TextEditingController regotpcontroller = TextEditingController();
 
   RxInt timer = 30.obs; // countdown seconds
@@ -90,7 +89,7 @@ class Registrationcontroller extends GetxController {
           secondName: lastNamecontroller.text,
           phoneNumber: phoneNumbercontroller.text,
           dob: dob.value,
-          fcmtoKen: fcmtoken.value,
+          fcmtoKen: ctrl.fcmToken.value,
           district: district.value,
         );
 

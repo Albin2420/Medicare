@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart' as latlng;
 import 'package:medicare/src/data/repositories/check-ride/checkrideRepoImpl.dart';
 import 'package:medicare/src/data/services/hive_services/rideDetails/ambulance_data.dart';
+import 'package:medicare/src/data/services/makecall/makephonecall.dart';
 import 'package:medicare/src/domain/repositories/check-ride/check_rideRepo.dart';
 import 'package:medicare/src/presentation/screens/Home/landing.dart';
 
@@ -79,6 +80,8 @@ class Homecontroller extends GetxController {
   final PageController pageController = PageController();
   var currentpageIndex = 0.obs;
   var isUiReady = false.obs;
+
+  final callHelper = Makephonecall();
 
   @override
   void onInit() async {
@@ -252,7 +255,7 @@ class Homecontroller extends GetxController {
       final uri = Uri.parse('ws://13.203.89.173:8001/ws/user/$id');
 
       channel = WebSocketChannel.connect(uri);
-      log('🔌 Connecting to $uri');
+      log(' 🔌 Connecting to $uri');
 
       channel!.stream.listen(
         (data) async {
@@ -466,7 +469,7 @@ class Homecontroller extends GetxController {
 
   Future<void> makePhoneCall(String phoneNumber) async {
     try {
-      await FlutterPhoneDirectCaller.callNumber(phoneNumber);
+      callHelper.makePhoneCallservice(phoneNumber: phoneNumber);
     } catch (e) {
       log("error:$e");
     }

@@ -15,7 +15,7 @@ class Landingscreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(Homecontroller());
-    Get.put(Bloodrequestcontroller());
+    final ctrl = Get.put(Bloodrequestcontroller());
     final Size screenSize = MediaQuery.of(context).size;
     final double height = screenSize.height;
     final double width = screenSize.width;
@@ -157,6 +157,9 @@ class Landingscreen extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
+                      if (ctrl.initialized) {
+                        ctrl.fetchDonar();
+                      }
                       controller.onPageChange(index: 2);
                     },
                     child: Column(

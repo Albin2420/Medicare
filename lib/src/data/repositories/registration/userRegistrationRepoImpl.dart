@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
@@ -21,19 +22,23 @@ class UserRegistrationRepoImpl extends UserRegistrationRepo {
     final url = '${Url.baseUrl}/${Url.users}';
 
     try {
+      final requestedData = jsonEncode({
+        'first_name': frstName,
+        'last_name': secondName,
+        'mobile': phoneNumber,
+        'birth_date': dob,
+        'fcm_token': fcmtoKen,
+        'district': district,
+      });
+
       log("🔌 POST: $url");
+
+      log("📤 Sending Request Data:\n $requestedData");
 
       final response = await _dio.post(
         url,
         options: Options(headers: {'Content-Type': 'application/json'}),
-        data: {
-          'first_name': frstName,
-          'last_name': secondName,
-          'mobile': phoneNumber,
-          'birth_date': dob,
-          'fcm_token': "abcdef",
-          'district': district,
-        },
+        data: requestedData,
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {

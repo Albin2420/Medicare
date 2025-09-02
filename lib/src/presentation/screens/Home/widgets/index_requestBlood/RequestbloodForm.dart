@@ -14,8 +14,8 @@ import 'package:medicare/src/presentation/widgets/GroupPicker.dart';
 import 'package:medicare/src/presentation/widgets/gradientbutton.dart';
 import 'package:medicare/src/presentation/widgets/suggestionTextField.dart';
 
-class BloodForm extends StatelessWidget {
-  const BloodForm({super.key});
+class RequestBloodForm extends StatelessWidget {
+  const RequestBloodForm({super.key});
 
   @override
   Widget build(BuildContext context) {
