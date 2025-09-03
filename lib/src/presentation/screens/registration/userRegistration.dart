@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medicare/src/presentation/controller/registrationcontroller/registrationcontroller.dart';
-import 'package:medicare/src/presentation/widgets/Datepicker.dart';
+
 import 'package:medicare/src/presentation/widgets/GroupPicker.dart';
 import 'package:medicare/src/presentation/widgets/gradientbutton.dart';
 

@@ -1,16 +1,15 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medicare/src/presentation/controller/registrationcontroller/registrationcontroller.dart';
 import 'package:medicare/src/presentation/screens/registration/otp.dart';
-import 'package:medicare/src/presentation/widgets/Datepicker.dart';
-import 'package:medicare/src/presentation/widgets/bloodGroupselector.dart';
+import 'package:medicare/src/presentation/screens/registration/widgets/BloodGroupSelector.dart';
+import 'package:medicare/src/presentation/screens/registration/widgets/datepicker(dob).dart';
+import 'package:medicare/src/presentation/screens/registration/widgets/yesNoselector.dart';
 
 import 'package:medicare/src/presentation/widgets/gradientbutton.dart';
-import 'package:medicare/src/presentation/widgets/yesNoselector.dart';
 
 class BloodDonationform extends StatelessWidget {
   const BloodDonationform({super.key});
@@ -18,6 +17,8 @@ class BloodDonationform extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ctrl = Get.find<Registrationcontroller>();
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -53,89 +54,80 @@ class BloodDonationform extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: Column(
-          children: [
-            SizedBox(height: 40),
-            Center(
-              child: Text(
-                "Blood Donation",
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 30,
-                  color: const Color(0xff353459),
-                ),
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final isTablet = constraints.maxWidth > 600;
+
+            return SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: isTablet ? 60 : 40),
+                  Center(
+                    child: Text(
+                      "Blood Donation",
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w700,
+                        fontSize: isTablet ? 36 : 30,
+                        color: const Color(0xff353459),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: isTablet ? 40 : 30),
+
+                  // DOB Label
+                  Text(
+                    "Date of Birth",
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w500,
+                      fontSize: isTablet ? 22 : 18,
+                      color: const Color(0xff353459),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  // DatePicker
+                  DatePicker(showPreviousDates: true),
+
+                  SizedBox(height: isTablet ? 36 : 28),
+
+                  // Blood type label
+                  Text(
+                    "Your blood type",
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w500,
+                      fontSize: isTablet ? 22 : 18,
+                      color: const Color(0xff353459),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Blood type selector
+                  BloodGroupSelector(),
+
+                  SizedBox(height: isTablet ? 36 : 28),
+
+                  // Donation willingness label
+                  Text(
+                    "Are you willing to donate blood?",
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w500,
+                      fontSize: isTablet ? 22 : 18,
+                      color: const Color(0xff353459),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Yes/No selector
+                  YesNoSelector(),
+
+                  const SizedBox(height: 20),
+                ],
               ),
-            ),
-            SizedBox(height: 38),
-
-            Row(
-              children: [
-                Text(
-                  "Date of Birth",
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                    color: const Color(0xff353459),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-
-            DatePicker(
-              onDateSelected: (String dobDate) {
-                log("date:$dobDate");
-                ctrl.dob.value = dobDate;
-              },
-              showPreviousDates: true,
-            ),
-
-            SizedBox(height: 32),
-            Row(
-              children: [
-                Text(
-                  "your blood type",
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                    color: const Color(0xff353459),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            BloodGroupSelector(
-              onChanged: (String? p1) {
-                ctrl.bloodType.value = p1!;
-              },
-            ),
-            SizedBox(height: 32),
-            Row(
-              children: [
-                Text(
-                  "Are you willing to donate blood?",
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                    color: const Color(0xff353459),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                YesNoSelector(
-                  onChanged: (bool? p2) {
-                    ctrl.isReadytoDonate.value = p2!;
-                  },
-                ),
-              ],
-            ),
-            SizedBox(height: 12),
-          ],
+            );
+          },
         ),
       ),
       bottomNavigationBar: BottomAppBar(
@@ -144,9 +136,15 @@ class BloodDonationform extends StatelessWidget {
         child: GradientBorderContainer(
           name: "submit",
           onTap: () {
-            // ctrl.submitRegistration();
+            if (ctrl.dob.value.isEmpty || ctrl.bloodType.value.isEmpty) {
+              Fluttertoast.showToast(
+                msg: "please fill all the neccessary fields",
+              );
+              return;
+            }
+
             ctrl.sendotp();
-            Get.to(() => Otp());
+            Get.to(() => const Otp());
           },
         ),
       ),
