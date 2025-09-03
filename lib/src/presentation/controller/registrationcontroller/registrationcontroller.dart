@@ -30,6 +30,7 @@ class Registrationcontroller extends GetxController {
   RxInt timer = 30.obs; // countdown seconds
   RxBool canResend = false.obs;
   Timer? _countdownTimer;
+  RxString yesNoSelection = 'Yes'.obs;
 
   //login
   TextEditingController phncontrolller = TextEditingController();
@@ -113,6 +114,11 @@ class Registrationcontroller extends GetxController {
       Fluttertoast.showToast(msg: "unable to register");
       log("error in submitRegistration():$e");
     }
+  }
+
+  void updateWillingness(String value) {
+    yesNoSelection.value = value;
+    isReadytoDonate.value = value == 'Yes';
   }
 
   void updateBloodIndo({

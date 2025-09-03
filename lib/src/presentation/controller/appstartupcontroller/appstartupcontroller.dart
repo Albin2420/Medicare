@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:medicare/src/data/repositories/getHospitals/getHospitalsrepoimpl.dart';
 import 'package:medicare/src/data/repositories/token/tokenRepoImpl.dart';
@@ -146,6 +147,14 @@ class Appstartupcontroller extends GetxController {
       log("✅ FCM Token: $token");
 
       fcmToken.value = token ?? '';
+
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        permission = await Geolocator.requestPermission();
+      }
+
+      log("📍 Location permission: $permission");
 
       return token;
     } catch (e) {
