@@ -15,9 +15,12 @@ class CheckRiderepoimpl extends CheckRiderepo {
     required int rideId,
   }) async {
     final url = '${Url.baseUrl}/${Url.userCheckonGoingRide}';
-    log("POST: $url  rideId:$rideId");
 
     try {
+      log(" 🔌 POST: $url");
+
+      log("📤 Sending Request Data:\n{'ride_id':$rideId}");
+
       final response = await _dio.post(
         url,
         options: Options(
