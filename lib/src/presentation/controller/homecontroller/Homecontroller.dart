@@ -35,14 +35,10 @@ class Homecontroller extends GetxController {
   RxString location = RxString("initial");
   static const epsilon = 0.00001;
   RxBool deniedforver = RxBool(false);
-
   Locationrepo lcrepo = Locationrepoimpl();
   WebSocketChannel? channel;
-
   RxString accessToken = RxString("initial");
-
   final ctrlr = Get.find<Appstartupcontroller>();
-
   //ambulance details
   RxString ambulancestatus = RxString("Ambulance requested...");
   RxString ambulanceRegNumber = RxString("");
@@ -53,34 +49,23 @@ class Homecontroller extends GetxController {
   RxDouble driverLat = RxDouble(0);
   RxDouble driverLong = RxDouble(0);
   RxInt rideId = RxInt(-1);
-
-  // final latlng.LatLng start = latlng.LatLng(10.1081324, 76.3585433);
-  // final latlng.LatLng end = latlng.LatLng(10.120000, 76.360000);
-
   final RxList<latlng.LatLng> routePoints = RxList<latlng.LatLng>();
-
   final openrouteservice = OpenRouteService(
     apiKey: fs.dotenv.env['ORS_API_KEY'] ?? 'defaultApi',
     defaultProfile: ORSProfile.drivingCar,
   );
-
   RxBool isexpanded = RxBool(false);
   RxString distancetoLocation = RxString('');
   var dt = {}.obs;
   RxInt id = RxInt(-1);
-
   RxInt previousRideId = RxInt(-1);
-
   CheckRiderepo checkRidedetail = CheckRiderepoimpl();
-
   var decoded = {}.obs;
-
   RxBool isInrIDE = RxBool(false);
-
   var currentpageIndex = 0.obs;
   var isUiReady = false.obs;
-
   final callHelper = Makephonecall();
+  var isRideEnd = "".obs;
 
   @override
   void onInit() async {
@@ -308,7 +293,7 @@ class Homecontroller extends GetxController {
       deleteAmbulanceData();
       clearRide();
       isInrIDE.value = false;
-      Get.off(() => Landingscreen());
+      isRideEnd.value = "Ambulance has arrived at your location.";
     } catch (e) {
       log("error in rideCompleted() :$e");
     }
