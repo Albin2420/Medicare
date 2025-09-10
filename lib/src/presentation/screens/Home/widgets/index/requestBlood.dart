@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +10,7 @@ class Requestblood extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final filters = [RequestBloodForm(), ResponsebloodRequest()];
     final ctrl = Get.find<Bloodrequestcontroller>();
     return Container(
       color: Colors.white,
@@ -120,11 +119,9 @@ class Requestblood extends StatelessWidget {
               SizedBox(height: 20),
 
               Expanded(
-                child: PageView(
-                  controller: ctrl.pageController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: const [RequestBloodForm(), ResponsebloodRequest()],
-                ),
+                child: Obx((){
+                  return filters[ctrl.currentIndex.value];
+                }),
               ),
             ],
           ),

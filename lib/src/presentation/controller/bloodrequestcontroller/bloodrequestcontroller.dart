@@ -31,37 +31,27 @@ class Bloodrequestcontroller extends GetxController {
   RxInt donateBloodIndex = RxInt(0);
   final responseDonors = <BRModel1>[].obs;
   final activereq = <BRModel4>[].obs;
-
   final bloodRequests = <BRModel2>[].obs;
-
   var general = <BRModel3>[].obs;
   var criticalRequest = <BRModel2>[].obs;
   var matchingRequests = <BRModel2>[].obs;
-
   RxBool critical = RxBool(false);
   RxString requestDate = RxString('');
   RxString bloodGroup = RxString("");
-
   TextEditingController noofUnits = TextEditingController();
   TextEditingController contactNumber = TextEditingController();
   TextEditingController patienTName = TextEditingController();
   TextEditingController hospitalName = TextEditingController();
   RxString district = RxString("");
   RxString userGrp = RxString("");
-
-  final pageController = PageController();
   RxBool hasErrorinFetchDonor = RxBool(false);
   RxInt bloodFilterIndex = RxInt(0);
-
   RxBool isBloodRequested = RxBool(false);
-
   Isthereanyreqrepo isthereanyreq = Isthereanyrepoimpl();
   Endmyreqrepo endmyreq = Endmyreqrepoimpl();
   Acceptdonorsrepo accept = Acceptdonorsrepoimpl();
-
   var dist = <String>[].obs;
   var currentHospital = <String>[].obs;
-
   final callHelper = Makephonecall();
 
   @override
@@ -181,7 +171,6 @@ class Bloodrequestcontroller extends GetxController {
       if (index == 1) {
         hasAnyRequests();
       }
-      pageController.jumpToPage(index);
       currentIndex.value = index;
     } catch (e) {
       log("Error in onPagechange():$e");

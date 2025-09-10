@@ -20,6 +20,8 @@ class Landingscreen extends StatelessWidget {
     final double height = screenSize.height;
     final double width = screenSize.width;
 
+    final filters = [LandingHome(), Requestblood(), Donateblood()];
+
     return Obx(() {
       if (!controller.isUiReady.value) {
         return const Scaffold(backgroundColor: Colors.white);
@@ -63,11 +65,9 @@ class Landingscreen extends StatelessWidget {
             ],
           ),
         ),
-        body: PageView(
-          controller: controller.pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          children: const [LandingHome(), Requestblood(), Donateblood()],
-        ),
+        body: Obx((){
+          return filters[controller.currentpageIndex.value];
+        }),
         bottomNavigationBar: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -85,7 +85,7 @@ class Landingscreen extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      controller.onPageChange(index: 0);
+                      controller.changePagelan(index: 0);
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -121,7 +121,7 @@ class Landingscreen extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      controller.onPageChange(index: 1);
+                      controller.changePagelan(index: 1);
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -160,7 +160,7 @@ class Landingscreen extends StatelessWidget {
                       if (ctrl.initialized) {
                         ctrl.fetchDonar();
                       }
-                      controller.onPageChange(index: 2);
+                      controller.changePagelan(index: 2);
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
