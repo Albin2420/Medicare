@@ -15,7 +15,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 class Appstartupcontroller extends GetxController {
   final _secureStorage = const FlutterSecureStorage();
   final Tokenrepo tokenrepo = Tokenrepoimpl();
-  Getshospitalsrepo gethsptl = Getshospitalsrepoimpl();
+  Getshospitalsrepo getHsptl = Getshospitalsrepoimpl();
   var hospitals = {}.obs;
   var dist = <String>[].obs;
   RxString fcmToken = RxString("");
@@ -33,7 +33,7 @@ class Appstartupcontroller extends GetxController {
 
   Future<void> getHospitals() async {
     try {
-      final res = await gethsptl.getHospitals();
+      final res = await getHsptl.getHospitals();
       res.fold(
         (l) {
           Fluttertoast.showToast(msg: "oops couldn't find server");

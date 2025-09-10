@@ -77,7 +77,6 @@ class Homecontroller extends GetxController {
 
   RxBool isInrIDE = RxBool(false);
 
-  final PageController pageController = PageController();
   var currentpageIndex = 0.obs;
   var isUiReady = false.obs;
 
@@ -96,12 +95,11 @@ class Homecontroller extends GetxController {
     });
   }
 
-  void onPageChange({required int index}) {
+  void changePagelan({required int index}) {
     try {
-      pageController.jumpToPage(index);
       currentpageIndex.value = index;
     } catch (e) {
-      log("Error changing page: $e");
+      log("Error in changePagelan(): $e");
       Fluttertoast.showToast(
         msg: "Error changing page",
         toastLength: Toast.LENGTH_SHORT,
