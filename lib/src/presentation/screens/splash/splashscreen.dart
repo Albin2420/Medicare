@@ -12,27 +12,7 @@ class Splashscreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Medi",
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.bold,
-                fontSize: 33,
-                color: Color(0xff353459),
-              ),
-            ),
-            Text(
-              "Care",
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.bold,
-                fontSize: 33,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
+        child: Image.asset(scale: 1,"assets/logo/trahi logo (2).png"),
       ),
     );
   }
