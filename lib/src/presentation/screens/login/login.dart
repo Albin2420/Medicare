@@ -110,7 +110,6 @@ class Login extends StatelessWidget {
                                 controller: ctrl.phncontrolller,
                                 onSubmitted: (value) {
                                   if (value.length == 10) {
-                                    // ctrl.sendotp();
                                     log(
                                       "User pressed enter with 10-digit number: $value",
                                     );
