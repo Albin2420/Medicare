@@ -17,14 +17,14 @@ class Home extends StatelessWidget {
     final ctrl = Get.find<Homecontroller>();
 
     return WillPopScope(
-      onWillPop: ()async{
-        if(EasyLoading.isShow){
+      onWillPop: () async {
+        if (EasyLoading.isShow) {
           return false;
         }
-        if(ctrl.isInrIDE.value){
+        if (ctrl.isInrIDE.value) {
           return true;
-        }else{
-          ctrl.isRideEnd.value ="";
+        } else {
+          ctrl.isRideEnd.value = "";
           return true;
         }
       },
@@ -45,7 +45,10 @@ class Home extends StatelessWidget {
           ),
           title: Text(
             "MediCare",
-            style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 20),
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w700,
+              fontSize: 20,
+            ),
           ),
           flexibleSpace: Column(
             children: [
@@ -74,7 +77,7 @@ class Home extends StatelessWidget {
               ),
             );
           }
-      
+
           return FlutterMap(
             options: MapOptions(
               initialCenter: lat.LatLng(ctrl.lat.value, ctrl.long.value),
@@ -143,26 +146,27 @@ class Home extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ctrl.isRideEnd.value != ""?Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(height: 20),
-                      Obx(() {
-                        return Text(
-                          "${ctrl.isRideEnd}",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        );
-                      }),
-                      const SizedBox(height: 20),
-                    ],
-                  ):
-                  ctrl.isexpanded.value == false
+                  ctrl.isRideEnd.value != ""
+                      ? Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const SizedBox(height: 20),
+                            Obx(() {
+                              return Text(
+                                "${ctrl.isRideEnd}",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 20,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              );
+                            }),
+                            const SizedBox(height: 20),
+                          ],
+                        )
+                      : ctrl.isexpanded.value == false
                       ? Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -233,7 +237,9 @@ class Home extends StatelessWidget {
                             }),
                             const SizedBox(height: 16),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 34),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 34,
+                              ),
                               child: Obx(() {
                                 if (ctrl.eta?.value != '') {
                                   return Row(
@@ -283,7 +289,9 @@ class Home extends StatelessWidget {
                             ),
                             const SizedBox(height: 20),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 20,
@@ -335,7 +343,9 @@ class Home extends StatelessWidget {
                                             Expanded(
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  color: const Color(0xffEBEBEF),
+                                                  color: const Color(
+                                                    0xffEBEBEF,
+                                                  ),
                                                   shape: BoxShape.circle,
                                                   border: Border.all(
                                                     color: const Color(
@@ -379,7 +389,9 @@ class Home extends StatelessWidget {
                                             Expanded(
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  color: const Color(0xffEBEBEF),
+                                                  color: const Color(
+                                                    0xffEBEBEF,
+                                                  ),
                                                   shape: BoxShape.circle,
                                                   border: Border.all(
                                                     color: const Color(
@@ -420,19 +432,22 @@ class Home extends StatelessWidget {
                                             Expanded(
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  gradient: const LinearGradient(
-                                                    begin: Alignment.topLeft,
-                                                    end: Alignment.bottomRight,
-                                                    colors: [
-                                                      Color.fromARGB(
-                                                        150,
-                                                        239,
-                                                        29,
-                                                        29,
+                                                  gradient:
+                                                      const LinearGradient(
+                                                        begin:
+                                                            Alignment.topLeft,
+                                                        end: Alignment
+                                                            .bottomRight,
+                                                        colors: [
+                                                          Color.fromARGB(
+                                                            150,
+                                                            239,
+                                                            29,
+                                                            29,
+                                                          ),
+                                                          Color(0xff8D0808),
+                                                        ],
                                                       ),
-                                                      Color(0xff8D0808),
-                                                    ],
-                                                  ),
                                                   shape: BoxShape.circle,
                                                   border: Border.all(
                                                     color: const Color(
@@ -468,7 +483,9 @@ class Home extends StatelessWidget {
                             ),
                             const SizedBox(height: 24),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
                               child: Obx(() {
                                 if (ctrl.mobNo.value != '') {
                                   return GestureDetector(
