@@ -8,7 +8,6 @@ class SuggestionTextField extends StatelessWidget {
   final String hintText;
   final TextInputType keyboardType;
   final List<TextInputFormatter>? inputFormatters;
-  final String? Function(String?)? validator;
 
   const SuggestionTextField({
     super.key,
@@ -16,7 +15,6 @@ class SuggestionTextField extends StatelessWidget {
     this.hintText = 'Enter Hospital Name',
     this.keyboardType = TextInputType.text,
     this.inputFormatters,
-    this.validator,
   });
 
   InputDecoration _inputDecoration(String hint) {
@@ -62,11 +60,10 @@ class SuggestionTextField extends StatelessWidget {
 
     return Column(
       children: [
-        TextFormField(
+        TextField(
           controller: ctrl.hospitalName,
           keyboardType: keyboardType,
           inputFormatters: inputFormatters,
-          validator: validator,
           onChanged: onChanged,
           decoration: _inputDecoration(hintText),
         ),
