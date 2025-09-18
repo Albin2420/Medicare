@@ -119,8 +119,51 @@ class Bloodrequestcontroller extends GetxController {
       log("error in filterHospital():$e");
     }
   }
+    Future<void> validateAndSubmit() async {
+      try{
+        final errors = <String>[];
 
-  Future<void> requestBlood() async {
+        if (requestDate.value.isEmpty) {
+          errors.add("Please select a required date");
+        }
+        if (bloodGroup.value.isEmpty) {
+          errors.add("Please select a Blood Group");
+        }
+        if (noofUnits.value.text.trim().isEmpty) {
+          errors.add("Please select No of Units");
+        }
+        if(contactNumber.value.text == ""){
+          errors.add("Please add phoneNumber");
+        }
+        if (patienTName.value.text.trim().isEmpty) {
+          errors.add("Please enter patient name");
+        }
+        if (district.value.isEmpty) {
+          errors.add("Please select a District");
+        }
+        if (hospitalName.value.text == "") {
+          errors.add("Please choose Hospital");
+        }
+
+
+        if (errors.isNotEmpty) {
+          Fluttertoast.showToast(
+            msg: errors.first,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            fontSize: 16.0,
+          );
+          return;
+        }else{
+          requestBlood();
+        }
+      }catch(e){
+        log("error in validateAndSubmit():$e");
+      }
+    }
+
+
+    Future<void> requestBlood() async {
     try {
       EasyLoading.show();
       final res = await br.requestBLood(
