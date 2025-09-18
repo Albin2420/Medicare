@@ -170,6 +170,7 @@ class RequestBloodForm extends StatelessWidget {
   // Common Input Decoration
   InputDecoration _inputDecoration(String hint) {
     return InputDecoration(
+      counterText: "",
       hintText: hint,
       hintStyle: const TextStyle(color: Colors.black54),
       filled: true,

@@ -12,7 +12,7 @@ class Splashscreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Image.asset(scale: 1,"assets/logo/trahi logo (2).png"),
+        child: Image.asset(scale: 5, "assets/logo/trahi logo (2).png"),
       ),
     );
   }

@@ -30,7 +30,7 @@ class Voice extends StatelessWidget {
           ),
         ),
         title: Text(
-          "MediCare",
+          "Trahi",
           style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 20),
         ),
         flexibleSpace: Column(

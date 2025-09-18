@@ -42,7 +42,7 @@ class Landingscreen extends StatelessWidget {
             ),
           ),
           title: Text(
-            "MediCare",
+            "Trahi",
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.w700,
               fontSize: width * 0.05,
@@ -65,7 +65,7 @@ class Landingscreen extends StatelessWidget {
             ],
           ),
         ),
-        body: Obx((){
+        body: Obx(() {
           return filters[controller.currentpageIndex.value];
         }),
         bottomNavigationBar: Container(
